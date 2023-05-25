@@ -37,6 +37,39 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     console.error('Gagal terhubung ke MongoDB:', error);
   });
 
+// ----------------------------------------------------------------- start Middleware BLock -------------------------------------------------------
+// Middleware untuk memeriksa validitas token pada setiap permintaan yang memerlukan otentikasi
+function authenticateToken(req, res, next) {
+  const token = req.headers['authorization'];
+  
+  if (!token) return res.sendStatus(401);
+  
+  const validToken = token.split(" ");
+  jwt.verify(validToken[1], secretKey, (err, user) => {
+    if (err) return res.sendStatus(403);
+
+    req.user = user;
+    next();
+  });
+}
+// ----------------------------------------------------------------- end Middleware BLock -------------------------------------------------------
+
+
+// ----------------------------------------------------------------- start SQL BLock -------------------------------------------------------
+// Endpoint GET untuk mendapatkan data pengguna
+app.get('/users', (req, res) => {
+  connection.query('SELECT * FROM users', (err, rows) => {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+// ----------------------------------------------------------------- end SQL Block --------------------------------------------------------
+
+
+// ----------------------------------------------------------------- start No SQL Block ---------------------------------------------------
+
+
+// ------------------------------------------------------------------ start Model and Schema ----------------------------------------------
   // CRUD dengan mongoDB
   // Definisikan skema Mongoose
   const usersSchema = new mongoose.Schema({
@@ -152,15 +185,9 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     }
   }
   // akhir CRUD mongoDB
+  // ------------------------------------------------------------------ end Model and Schema ------------------------------------------------ 
 
-// Endpoint GET untuk mendapatkan data pengguna
-app.get('/users', (req, res) => {
-  connection.query('SELECT * FROM users', (err, rows) => {
-    if (err) throw err;
-    res.json(rows);
-  });
-});
-app.get('/usersMongo', async (req, res) => {
+  app.get('/usersMongo', async (req, res) => {
   const dataUser = await getUsers();
   res.json(dataUser);
 });
@@ -221,6 +248,10 @@ app.post('/bulkInsertProduk', async (req, res) => {
     res.status(500).json({ error: 'Gagal memasukkan data dari CSV' });
   }
 });
+
+// ----------------------------------------------------------------- end No SQL Block ---------------------------------------------------
+
+
 app.get('/', (req, res) => {
     res.send('Server berjalan dengan baik!');
   });
@@ -237,20 +268,6 @@ app.post('/login', (req, res) => {
   res.json({ token });
 });
 
-// Middleware untuk memeriksa validitas token pada setiap permintaan yang memerlukan otentikasi
-function authenticateToken(req, res, next) {
-  const token = req.headers['authorization'];
-  
-  if (!token) return res.sendStatus(401);
-  
-  const validToken = token.split(" ");
-  jwt.verify(validToken[1], secretKey, (err, user) => {
-    if (err) return res.sendStatus(403);
-
-    req.user = user;
-    next();
-  });
-}
 
 // Contoh penggunaan middleware authenticateToken pada endpoint yang memerlukan otentikasi
 app.get('/protected', authenticateToken, (req, res) => {
