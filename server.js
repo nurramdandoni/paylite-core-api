@@ -3,8 +3,6 @@ const mysql = require('mysql');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
-const csv = require('csv-parser');
-const fs = require('fs');
 
 const app = express();
 const port = 3000;
@@ -54,7 +52,7 @@ function authenticateToken(req, res, next) {
 }
 // ----------------------------------------------------------------- end Middleware BLock -------------------------------------------------------
 
-
+const produkController = require('./controllers/produk');
 // ----------------------------------------------------------------- start SQL BLock -------------------------------------------------------
 // Endpoint GET untuk mendapatkan data pengguna
 app.get('/users', (req, res) => {
@@ -77,18 +75,11 @@ app.get('/users', (req, res) => {
     email: { type: String, unique: true },
     age: Number
   });
-  const produkSchema = new mongoose.Schema({
-    barcode: { type: String, unique: true },
-    nama: String,
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
-  });
+
   // Buat model Mongoose berdasarkan skema
   const User = mongoose.model('Users', usersSchema);
-  const Produk = mongoose.model('Produks', produkSchema);
   // mendefinisikan Index unique model User
   User.createIndexes({ email: 1 }, { unique: true });
-  Produk.createIndexes({ barcode: 1 }, { unique: true });
 
   // Fungsi untuk membuat pengguna baru
   async function createUser(name, email, age) {
@@ -101,16 +92,7 @@ app.get('/users', (req, res) => {
       console.error('Gagal menambahkan pengguna baru:', error);
     }
   }
-  async function createProduk(barcode, nama) {
-    try {
-      const newProduk = new Produk({ barcode, nama });
-      const savedProduk = await newProduk.save();
-      // console.log('Pengguna baru telah ditambahkan:', savedProduk);
-      return savedProduk;
-    } catch (error) {
-      console.error('Gagal menambahkan Produk baru:', error);
-    }
-  }
+  
 
   // Fungsi untuk mendapatkan daftar pengguna
   async function getUsers() {
@@ -136,34 +118,7 @@ app.get('/users', (req, res) => {
       console.error('Gagal mencari pengguna:', error);
     }
   }
-  // Fungsi untuk mencari produk berdasarkan barcode
-  async function findProdukByBarcode(barcode) {
-    try {
-      const produk = await Produk.find({barcode:barcode});
-      if (produk) {
-        // console.log('Produk ditemukan:', produk);
-        return produk;
-      } else {
-        console.log('Produk dengan Barcode tersebut tidak ditemukan');
-      }
-    } catch (error) {
-      console.error('Gagal mencari produk:', error);
-    }
-  }
-  // Fungsi untuk mencari produk berdasarkan nama Produk
-  async function findProdukByName(nameSearch) {
-    try {
-      const produk = await Produk.find({ nama: { $regex: nameSearch, $options: "i" } });
-      if (produk) {
-        // console.log('Produk ditemukan:', produk);
-        return produk;
-      } else {
-        console.log('Produk dengan Barcode tersebut tidak ditemukan');
-      }
-    } catch (error) {
-      console.error('Gagal mencari produk:', error);
-    }
-  }
+  
 
   // Fungsi untuk mengupdate pengguna berdasarkan ID
   async function updateUser(id, updates) {
@@ -191,26 +146,10 @@ app.get('/users', (req, res) => {
   const dataUser = await getUsers();
   res.json(dataUser);
 });
-app.get('/produk/:idbarcode', async (req, res) => {
-  const idbarcode = req.params.idbarcode;
-  const dataProduk = await findProdukByBarcode(idbarcode);
-  console.log(dataProduk);
-  if (dataProduk) {
-    res.json(dataProduk);
-  } else {
-    res.status(404).json({ error: 'Produk tidak ditemukan' });
-  }
-});
-app.post('/produkNameSearch', async (req, res) => {
-  const { nameSearch } = req.body;
-  const dataProduk = await findProdukByName(nameSearch);
-  console.log(dataProduk);
-  if (dataProduk) {
-    res.json(dataProduk);
-  } else {
-    res.status(404).json({ error: 'Produk tidak ditemukan' });
-  }
-});
+app.post('/produk', produkController.createProduk);
+app.post('/bulkProduk', produkController.createProdukByCsv);
+app.get('/produk/:idbarcode', produkController.searchProdukByBarcode);
+app.post('/produkNameSearch', produkController.searchProdukByName);
 app.post('/usersMongo', async (req, res) => {
   const { name, email, age } = req.body;
   try {
@@ -222,30 +161,6 @@ app.post('/usersMongo', async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: 'Gagal menambahkan pengguna baru' });
-  }
-});
-app.post('/bulkInsertProduk', async (req, res) => {
-  const { csvPath } = req.body;
-  
-  try {
-    // Read the CSV file
-    const results = [];
-    fs.createReadStream(csvPath)
-      .pipe(csv())
-      .on('data', (data) => results.push(data))
-      .on('end', async () => {
-        // Process each row and create users
-        for (const row of results) {
-          const { key, value } = row;
-          console.log(key,row);
-          await createProduk(key, value);
-        }
-
-        res.json({ message: 'Data inserted from CSV successfully.' });
-      });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Gagal memasukkan data dari CSV' });
   }
 });
 
