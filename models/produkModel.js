@@ -17,49 +17,54 @@ const produkSchema = new mongoose.Schema({
     try {
       const newProduk = new Produk({ barcode, nama, img});
       const savedProduk = await newProduk.save();
-      // console.log('Pengguna baru telah ditambahkan:', savedProduk);
-      const res = {
-        status:"sukses",
-        message:"Data Berhasil Ditambahkan!"
-      }
-      return res;
+
+      return {status:"Sukses",message:"Data Berhasil Ditambahkan!",data:savedProduk};
+      
     } catch (error) {
-      const res = {
-        status:"error",
-        message:error.message
-      }
-      return res;
-      // console.log(error.message);
+
+      return {status:"Error",message:"Terjadi Kesalahan!",data:error.message};
+
     }
   }
 
+  // Fungsi untuk menampilkan semua produk
+  async function findProduk() {
+    try {
+      const produk = await Produk.find();
+      if(produk.length > 0){
+        return {status:"Sukses",message:"Data Ditemukan!",data:produk};
+      }else{
+        return {status:"Sukses",message:"Data Tidak Ditemukan!",data:produk};
+      }
+    } catch (error) {
+      return {status:"Error",message:"Terjadi Kesalahan!",data:error};
+    }
+  }
   // Fungsi untuk mencari produk berdasarkan barcode
   async function findProdukByBarcode(barcode) {
     try {
       const produk = await Produk.find({barcode:barcode});
-      if (produk) {
-        // console.log('Produk ditemukan:', produk);
-        return produk;
-      } else {
-        console.log('Produk dengan Barcode tersebut tidak ditemukan');
+      if(produk.length > 0){
+        return {status:"Sukses",message:"Data Ditemukan!",data:produk};
+      }else{
+        return {status:"Sukses",message:"Data Tidak Ditemukan!",data:produk};
       }
     } catch (error) {
-      console.error('Gagal mencari produk:', error);
+      return {status:"Error",message:"Terjadi Kesalahan!",data:error};
     }
   }
   // Fungsi untuk mencari produk berdasarkan nama Produk
   async function findProdukByName(nameSearch) {
     try {
       const produk = await Produk.find({ nama: { $regex: nameSearch, $options: "i" } });
-      if (produk) {
-        // console.log('Produk ditemukan:', produk);
-        return produk;
-      } else {
-        console.log('Produk dengan Barcode tersebut tidak ditemukan');
+      if(produk.length > 0){
+        return {status:"Sukses",message:"Data Ditemukan!",data:produk};
+      }else{
+        return {status:"Sukses",message:"Data Tidak Ditemukan!",data:produk};
       }
     } catch (error) {
-      console.error('Gagal mencari produk:', error);
+      return {status:"Error",message:"Terjadi Kesalahan!",data:error};
     }
   }
 
-  module.exports = {Produk, findProdukByName, findProdukByBarcode, createProduk};
+  module.exports = {Produk, findProduk, findProdukByName, findProdukByBarcode, createProduk};

@@ -13,10 +13,10 @@ app.use(express.json());
 
 // Koneksi ke database MySQL
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'PayliteCoreApi'
+  host: 'paylite.co.id',
+  user: 'u1577154_super',
+  password: 'Paylite2022q@',
+  database: 'u1577154_paylite'
 });
 
 
@@ -146,10 +146,14 @@ app.get('/users', (req, res) => {
   const dataUser = await getUsers();
   res.json(dataUser);
 });
+
+// api produk master saat scan
 app.post('/produk', produkController.createProduk);
 app.post('/bulkProduk', produkController.createProdukByCsv);
+app.get('/produk', produkController.searchProduk);
 app.get('/produk/:idbarcode', produkController.searchProdukByBarcode);
 app.post('/produkNameSearch', produkController.searchProdukByName);
+
 app.post('/usersMongo', async (req, res) => {
   const { name, email, age } = req.body;
   try {

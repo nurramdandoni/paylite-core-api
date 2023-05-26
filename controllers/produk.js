@@ -1,64 +1,156 @@
 const csv = require('csv-parser');
 const fs = require('fs');
 
-const { findProdukByName, findProdukByBarcode, createProduk } = require('../models/produkModel');
+const { findProduk, findProdukByName, findProdukByBarcode, createProduk } = require('../models/produkModel');
 
-exports.searchProdukByName = async (req, res) => {
-    const { nameSearch } = req.body;
-    const dataProduk = await findProdukByName(nameSearch);
-    console.log(dataProduk);
-    if (dataProduk) {
-      res.json(dataProduk);
+const response500 = {
+  status:"Error",
+  message:"Internal Server Error!",
+  data:""
+}
+
+// insert produk
+exports.createProduk = async (req, res) => {
+  const { barcode, nama, img } = req.body;
+  
+  try {
+        const dataProduk =  await createProduk(barcode, nama, img);
+        if(dataProduk.status == "Sukses"){
+          const response = {
+            status:dataProduk.status,
+            message:dataProduk.message,
+            data:dataProduk.data
+          }
+          res.json(response);
+        }else{
+          const response = {
+            status:dataProduk.status,
+            message:dataProduk.message,
+            data:dataProduk.data
+          }
+          res.status(422).json(response);
+        }
+  } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// insert produk bulk by csv
+exports.createProdukByCsv = async (req, res) => {
+  const { csvPath } = req.body;
+  
+  try {
+    // Read the CSV file
+    const results = [];
+    fs.createReadStream(csvPath)
+      .pipe(csv())
+      .on('data', (data) => results.push(data))
+      .on('end', async () => {
+        // Process each row and create users
+        let countSukses = 0;
+        let countgagal = 0;
+        for (const row of results) {
+          const { key, value, img } = row;
+          console.log(key,row);
+          const saved = await createProduk(key, value, img);
+          if(saved.status == "Sukses"){
+            countSukses++;
+          }else{
+            countgagal++;
+
+          }
+        }
+
+        const response = {
+          status:"Sukses",
+          message:"Data Berhasil Ditambahkan!",
+          data:"Total Sukses : "+countSukses+" Data, Total Gagal : "+countgagal+" Data"
+        }
+
+        res.json(response);
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(response500);
+  }
+};
+// get data produk all
+exports.searchProduk = async (req, res) => {
+  try{
+
+    const dataProduk = await findProduk();
+
+    if (dataProduk.status == "Sukses") {
+      const response = {
+        status:dataProduk.status,
+        message:dataProduk.message,
+        data:dataProduk.data
+      }
+      res.json(response);
     } else {
-      res.status(404).json({ error: 'Produk tidak ditemukan' });
+      const response = {
+        status:dataProduk.status,
+        message:dataProduk.message,
+        data:dataProduk.data
+      }
+      res.status(404).json(response);
     }
-  };
+
+  }catch(error){
+    res.status(500).json(response500);
+  }
+};
+// get data produk by barcode
 exports.searchProdukByBarcode = async (req, res) => {
     const idbarcode = req.params.idbarcode;
-    const dataProduk = await findProdukByBarcode(idbarcode);
-    console.log(dataProduk);
-    if (dataProduk) {
-      res.json(dataProduk);
-    } else {
-      res.status(404).json({ error: 'Produk tidak ditemukan' });
-    }
-  };
-exports.createProdukByCsv = async (req, res) => {
-    const { csvPath } = req.body;
-    
-    try {
-      // Read the CSV file
-      const results = [];
-      fs.createReadStream(csvPath)
-        .pipe(csv())
-        .on('data', (data) => results.push(data))
-        .on('end', async () => {
-          // Process each row and create users
-          for (const row of results) {
-            const { key, value, img } = row;
-            console.log(key,row);
-            await createProduk(key, value, img);
-          }
+
+    try{
+
+      const dataProduk = await findProdukByBarcode(idbarcode);
   
-          res.json({ message: 'Data inserted from CSV successfully.' });
-        });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: 'Gagal memasukkan data dari CSV' });
+      if (dataProduk.status == "Sukses") {
+        const response = {
+          status:dataProduk.status,
+          message:dataProduk.message,
+          data:dataProduk.data
+        }
+        res.json(response);
+      } else {
+        const response = {
+          status:dataProduk.status,
+          message:dataProduk.message,
+          data:dataProduk.data
+        }
+        res.status(404).json(response);
+      }
+
+    }catch(error){
+      res.status(500).json(response500);
     }
   };
-exports.createProduk = async (req, res) => {
-    const { barcode, nama, img } = req.body;
-    
-    try {
-          const saved =  await createProduk(barcode, nama, img);
-          if(saved.status == "sukses"){
-              res.json({ message: 'Data inserted successfully.' });
-          }else{
-            res.status(422).json({ error: saved.message });
-          }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: 'Gagal memasukkan data' });
+// get data produk by nama
+  exports.searchProdukByName = async (req, res) => {
+    const { nameSearch } = req.body;
+    try{
+
+      const dataProduk = await findProdukByName(nameSearch);
+      
+      if (dataProduk.status == "Sukses") {
+        const response = {
+          status:dataProduk.status,
+          message:dataProduk.message,
+          data:dataProduk.data
+        }
+        res.json(response);
+      } else {
+        const response = {
+          status:dataProduk.status,
+          message:dataProduk.message,
+          data:dataProduk.data
+        }
+        res.status(404).json(response);
+      }
+
+    }catch(error){
+      res.status(500).json(response500);
     }
   };
