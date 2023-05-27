@@ -1,7 +1,7 @@
 const csv = require('csv-parser');
 const fs = require('fs');
 
-const { findProduk, findProdukByName, findProdukByBarcode, createProduk } = require('../models/produkModel');
+const { findProduk, findProdukByName, findProdukByBarcode, createProduk, updateProduk } = require('../models/nosql/produkModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -154,3 +154,28 @@ exports.searchProdukByBarcode = async (req, res) => {
       res.status(500).json(response500);
     }
   };
+  // update produk
+exports.updateProduk = async (req, res) => {
+  const { barcode } = req.body;
+  
+  try {
+        const dataProduk =  await updateProduk(barcode,req.body);
+        if(dataProduk.status == "Sukses"){
+          const response = {
+            status:dataProduk.status,
+            message:dataProduk.message,
+            data:dataProduk.data
+          }
+          res.json(response);
+        }else{
+          const response = {
+            status:dataProduk.status,
+            message:dataProduk.message,
+            data:dataProduk.data
+          }
+          res.status(422).json(response);
+        }
+  } catch (error) {
+    res.status(500).json(response500);
+  }
+};

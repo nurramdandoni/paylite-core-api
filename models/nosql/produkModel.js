@@ -1,24 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require('../../config/db_mongo');
 
-const produkSchema = new mongoose.Schema({
-    barcode: { type: String, unique: true },
-    nama: String,
-    img: String,
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
-  });
+const Schema = mongoose.Schema;
+
+const produkSchema = new Schema({
+  barcode: { type: String, unique: true },
+  nama: String,
+  img: String,
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
 
   
   const Produk = mongoose.model('Produks', produkSchema);
-  
-  Produk.createIndexes({ barcode: 1 }, { unique: true });
 
   async function createProduk(barcode, nama, img) {
     try {
       const newProduk = new Produk({ barcode, nama, img});
       const savedProduk = await newProduk.save();
-
-      return {status:"Sukses",message:"Data Berhasil Ditambahkan!",data:savedProduk};
+      if(savedProduk){
+        return {status:"Sukses",message:"Data Berhasil Ditambahkan!!",data:savedProduk};
+      }else{
+        return {status:"Error",message:"Data Gagal Ditambahkan!",data:newProduk};
+      }
       
     } catch (error) {
 
@@ -50,6 +53,7 @@ const produkSchema = new mongoose.Schema({
         return {status:"Sukses",message:"Data Tidak Ditemukan!",data:produk};
       }
     } catch (error) {
+      comsole.log(error);
       return {status:"Error",message:"Terjadi Kesalahan!",data:error};
     }
   }
@@ -66,5 +70,18 @@ const produkSchema = new mongoose.Schema({
       return {status:"Error",message:"Terjadi Kesalahan!",data:error};
     }
   }
-
-  module.exports = {Produk, findProduk, findProdukByName, findProdukByBarcode, createProduk};
+  // Fungsi untuk mengupdate produk berdasarkan barcode
+  async function updateProduk(barcode, data) {
+    try {
+      const updatedProduk = await Produk.findOneAndUpdate({barcode:barcode}, data, { new: true });
+      if(updatedProduk){
+        return {status:"Sukses",message:"Data Berhasil Diperbaharui!!",data:data};
+      }else{
+        return {status:"Error",message:"Data Gagal Diperbaharui!",data:data};
+      }
+    } catch (error) {
+      console.log(error);
+      return {status:"Error",message:"Terjadi Kesalahan!",data:error};
+    }
+  }
+  module.exports = {Produk, findProduk, findProdukByName, findProdukByBarcode, createProduk, updateProduk};

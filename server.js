@@ -1,6 +1,4 @@
 const express = require('express');
-const mysql = require('mysql');
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
 
@@ -10,30 +8,6 @@ const secretKey = 'rahasia';
 
 // Middleware untuk parsing body permintaan
 app.use(express.json());
-
-// Koneksi ke database MySQL
-const connection = mysql.createConnection({
-  host: 'paylite.co.id',
-  user: 'u1577154_super',
-  password: 'Paylite2022q@',
-  database: 'u1577154_paylite'
-});
-
-
-connection.connect((err) => {
-  if (err) throw err;
-  console.log('Terhubung ke database MySQL');
-});
-
-// Koneksi ke database mongoDB
-const url = 'mongodb://localhost:27017/payliteCore';
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('Terhubung ke MongoDB');
-  })
-  .catch((error) => {
-    console.error('Gagal terhubung ke MongoDB:', error);
-  });
 
 // ----------------------------------------------------------------- start Middleware BLock -------------------------------------------------------
 // Middleware untuk memeriksa validitas token pada setiap permintaan yang memerlukan otentikasi
@@ -66,82 +40,6 @@ app.get('/users', (req, res) => {
 
 // ----------------------------------------------------------------- start No SQL Block ---------------------------------------------------
 
-
-// ------------------------------------------------------------------ start Model and Schema ----------------------------------------------
-  // CRUD dengan mongoDB
-  // Definisikan skema Mongoose
-  const usersSchema = new mongoose.Schema({
-    name: String,
-    email: { type: String, unique: true },
-    age: Number
-  });
-
-  // Buat model Mongoose berdasarkan skema
-  const User = mongoose.model('Users', usersSchema);
-  // mendefinisikan Index unique model User
-  User.createIndexes({ email: 1 }, { unique: true });
-
-  // Fungsi untuk membuat pengguna baru
-  async function createUser(name, email, age) {
-    try {
-      const newUser = new User({ name, email, age });
-      const savedUser = await newUser.save();
-      // console.log('Pengguna baru telah ditambahkan:', savedUser);
-      return savedUser;
-    } catch (error) {
-      console.error('Gagal menambahkan pengguna baru:', error);
-    }
-  }
-  
-
-  // Fungsi untuk mendapatkan daftar pengguna
-  async function getUsers() {
-    try {
-      const users = await User.find();
-      console.log('Daftar pengguna:', users);
-      return users;
-    } catch (error) {
-      console.error('Gagal mendapatkan daftar pengguna:', error);
-    }
-  }
-
-  // Fungsi untuk mencari pengguna berdasarkan ID
-  async function findUserById(id) {
-    try {
-      const user = await User.findById(id);
-      if (user) {
-        console.log('Pengguna ditemukan:', user);
-      } else {
-        console.log('Pengguna dengan ID tersebut tidak ditemukan');
-      }
-    } catch (error) {
-      console.error('Gagal mencari pengguna:', error);
-    }
-  }
-  
-
-  // Fungsi untuk mengupdate pengguna berdasarkan ID
-  async function updateUser(id, updates) {
-    try {
-      const updatedUser = await User.findByIdAndUpdate(id, updates, { new: true });
-      console.log('Pengguna telah diperbarui:', updatedUser);
-    } catch (error) {
-      console.error('Gagal memperbarui pengguna:', error);
-    }
-  }
-
-  // Fungsi untuk menghapus pengguna berdasarkan ID
-  async function deleteUser(id) {
-    try {
-      const deletedUser = await User.findByIdAndDelete(id);
-      console.log('Pengguna telah dihapus:', deletedUser);
-    } catch (error) {
-      console.error('Gagal menghapus pengguna:', error);
-    }
-  }
-  // akhir CRUD mongoDB
-  // ------------------------------------------------------------------ end Model and Schema ------------------------------------------------ 
-
   app.get('/usersMongo', async (req, res) => {
   const dataUser = await getUsers();
   res.json(dataUser);
@@ -153,6 +51,7 @@ app.post('/bulkProduk', produkController.createProdukByCsv);
 app.get('/produk', produkController.searchProduk);
 app.get('/produk/:idbarcode', produkController.searchProdukByBarcode);
 app.post('/produkNameSearch', produkController.searchProdukByName);
+app.put('/produk', produkController.updateProduk);
 
 app.post('/usersMongo', async (req, res) => {
   const { name, email, age } = req.body;
@@ -183,7 +82,7 @@ app.post('/login', (req, res) => {
   // ...
 
   // Jika otentikasi berhasil, membuat token JWT
-  const token = jwt.sign({ username }, secretKey,{ expiresIn: '1m' });
+  const token = jwt.sign({ username }, secretKey,{ expiresIn: '1d' });
   res.json({ token });
 });
 
