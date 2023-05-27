@@ -81,7 +81,21 @@ const produkSchema = new Schema({
       }
     } catch (error) {
       console.log(error);
-      return {status:"Error",message:"Terjadi Kesalahan!",data:error};
+      return {status:"Error",message:"Terjadi Kesalahan!",data:error.message};
     }
   }
-  module.exports = {Produk, findProduk, findProdukByName, findProdukByBarcode, createProduk, updateProduk};
+  // Fungsi untuk hapus produk berdasarkan id
+  async function deleteProduk(id) {
+    try {
+      const deletedProduk = await Produk.findOneAndDelete({ _id: id });
+      if (deletedProduk) {
+        return { status: "Sukses", message: "Data berhasil dihapus!", data: deletedProduk };
+      } else {
+        return { status: "Error", message: "Data tidak ditemukan!", data: null };
+      }
+    } catch (error) {
+      console.log(error);
+      return { status: "Error", message: "Terjadi kesalahan saat menghapus data!",data:error.message };
+    }
+  }
+  module.exports = {Produk, findProduk, findProdukByName, findProdukByBarcode, createProduk, updateProduk, deleteProduk};

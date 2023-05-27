@@ -1,13 +1,23 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 
 
 const app = express();
 const port = 3000;
 const secretKey = 'rahasia';
 
+// Menerapkan pembatasan tingkat permintaan secara umum
+const limiter = rateLimit({
+  windowMs: 1000, // Periode waktu dalam milidetik (misalnya, 1 detik)
+  max: 2, // Jumlah maksimum permintaan dalam periode waktu yang ditentukan
+  message: 'Terlalu Banyak Permintaan Tidak Wajar, Silahkan Coba Kembali!',
+});
+
 // Middleware untuk parsing body permintaan
 app.use(express.json());
+// Menggunakan middleware pembatasan tingkat permintaan secara umum
+app.use(limiter);
 
 // ----------------------------------------------------------------- start Middleware BLock -------------------------------------------------------
 // Middleware untuk memeriksa validitas token pada setiap permintaan yang memerlukan otentikasi
@@ -46,12 +56,13 @@ app.get('/users', (req, res) => {
 });
 
 // api produk master saat scan
-app.post('/produk', produkController.createProduk);
+app.post('/produk',miniter, produkController.createProduk);
 app.post('/bulkProduk', produkController.createProdukByCsv);
-app.get('/produk', produkController.searchProduk);
-app.get('/produk/:idbarcode', produkController.searchProdukByBarcode);
-app.post('/produkNameSearch', produkController.searchProdukByName);
+app.get('/produk',limiter, produkController.searchProduk);
+app.get('/produk/:idbarcode',limiter, produkController.searchProdukByBarcode);
+app.post('/produkNameSearch',limiter, produkController.searchProdukByName);
 app.put('/produk', produkController.updateProduk);
+app.delete('/produk', produkController.deleteProduk);
 
 app.post('/usersMongo', async (req, res) => {
   const { name, email, age } = req.body;
@@ -75,7 +86,7 @@ app.get('/', (req, res) => {
   });
 
 // Endpoint untuk login dan menghasilkan token JWT
-app.post('/login', (req, res) => {
+app.post('/login',limiter, (req, res) => {
   const { username, password } = req.body;
 
   // Proses otentikasi pengguna
