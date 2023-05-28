@@ -1,17 +1,20 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const jwtLib = require('./config/jwt');
 const rateLimit = require('express-rate-limit');
 
 
 const app = express();
 const port = 3000;
-const secretKey = 'rahasia';
 
 // Menerapkan pembatasan tingkat permintaan secara umum
 const limiter = rateLimit({
-  windowMs: 1000, // Periode waktu dalam milidetik (misalnya, 1 detik)
+  windowMs: 2000, // Periode waktu dalam milidetik (misalnya, 1 detik)
   max: 2, // Jumlah maksimum permintaan dalam periode waktu yang ditentukan
-  message: 'Terlalu Banyak Permintaan Tidak Wajar, Silahkan Coba Kembali!',
+  // message: 'Terlalu Banyak Permintaan Tidak Wajar, Silahkan Coba Kembali!',
+  message:{
+    status:"Error",
+    message:"Terlalu Banyak Permintaan Tidak Wajar, Silahkan Coba Kembali!"
+  }
 });
 
 // Middleware untuk parsing body permintaan
@@ -35,7 +38,7 @@ function authenticateToken(req, res, next) {
   if (!token) return res.status(401).json(responseAutenticate);
   
   const validToken = token.split(" ");
-  jwt.verify(validToken[1], secretKey, (err, user) => {
+  jwtLib.jwt.verify(validToken[1], jwtLib.secretKey, (err, user) => {
     if (err) return res.status(403).json(responseForbiden);
 
     req.user = user;
@@ -47,6 +50,7 @@ function authenticateToken(req, res, next) {
 
 // ----------------------------------------------------------------- start Controller BLock -------------------------------------------------------
 const produkController = require('./controllers/produk');
+const userController = require('./controllers/user');
 // ----------------------------------------------------------------- end Controller BLock -------------------------------------------------------
 
 
@@ -65,18 +69,9 @@ app.get('/', (req, res) => {
   res.send('Server berjalan dengan baik!');
 });
 
-// Endpoint untuk login dan menghasilkan token JWT
-app.post('/login',limiter, (req, res) => {
-const { username, password } = req.body;
-
-// Proses otentikasi pengguna
-// ...
-
-// Jika otentikasi berhasil, membuat token JWT
-const token = jwt.sign({ username }, secretKey,{ expiresIn: '1d' });
-res.json({ token });
-});
-// api produk master saat scan
+// api Login
+app.post('/login',limiter, userController.searchUser);
+// api Produk
 app.post('/produk',limiter,authenticateToken, produkController.createProduk);
 app.post('/bulkProduk', authenticateToken, produkController.createProdukByCsv);
 app.get('/produk',limiter, authenticateToken, produkController.searchProduk);

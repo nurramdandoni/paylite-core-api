@@ -98,4 +98,4 @@ const produkSchema = new Schema({
       return { status: "Error", message: "Terjadi kesalahan saat menghapus data!",data:error.message };
     }
   }
-  module.exports = {Produk, findProduk, findProdukByName, findProdukByBarcode, createProduk, updateProduk, deleteProduk};
+  module.exports = { findProduk, findProdukByName, findProdukByBarcode, createProduk, updateProduk, deleteProduk};

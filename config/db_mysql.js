@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const { Sequelize } = require('sequelize');
 // Koneksi ke database MySQL server Paylite
 // const connection = mysql.createConnection({
 //   host: 'paylite.co.id',
@@ -7,16 +7,18 @@ const mysql = require('mysql');
 //   database: 'u1577154_paylite'
 // });
 // Koneksi ke database MySQL server Local
-const connection = mysql.createConnection({
+// Inisialisasi koneksi ke database
+const sequelize = new Sequelize('paylitecoreapi', 'root', '', {
   host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'paylitecoreapi'
+  dialect: 'mysql'
 });
 
-
-connection.connect((err) => {
-  if (err) throw err;
-  console.log('Terhubung ke database MySQL');
-});
-module.exports = connection;
+// Cek koneksi ke database
+sequelize.authenticate()
+  .then(() => {
+    console.log('Terhubung ke MySQL.');
+  })
+  .catch((error) => {
+    console.error('Gagal Terhubung Ke MySQL', error);
+  });
+module.exports = sequelize;
