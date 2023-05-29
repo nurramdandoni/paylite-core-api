@@ -49,8 +49,8 @@ function authenticateToken(req, res, next) {
 
 
 // ----------------------------------------------------------------- start Controller BLock -------------------------------------------------------
-const produkController = require('./controllers/produk');
-const userController = require('./controllers/user');
+// const produkController = require('./controllers/produk');
+// const userController = require('./controllers/user');
 // ----------------------------------------------------------------- end Controller BLock -------------------------------------------------------
 
 
@@ -70,15 +70,15 @@ app.get('/', (req, res) => {
 });
 
 // api Login
-app.post('/login',limiter, userController.searchUser);
+// app.post('/login',limiter, userController.searchUser);
 // api Produk
-app.post('/produk',limiter,authenticateToken, produkController.createProduk);
-app.post('/bulkProduk', authenticateToken, produkController.createProdukByCsv);
-app.get('/produk',limiter, authenticateToken, produkController.searchProduk);
-app.get('/produk/:idbarcode',limiter, authenticateToken, produkController.searchProdukByBarcode);
-app.post('/produkNameSearch',limiter, authenticateToken, produkController.searchProdukByName);
-app.put('/produk', authenticateToken, produkController.updateProduk);
-app.delete('/produk', authenticateToken, produkController.deleteProduk);
+// app.post('/produk',limiter,authenticateToken, produkController.createProduk);
+// app.post('/bulkProduk', authenticateToken, produkController.createProdukByCsv);
+// app.get('/produk',limiter, authenticateToken, produkController.searchProduk);
+// app.get('/produk/:idbarcode',limiter, authenticateToken, produkController.searchProdukByBarcode);
+// app.post('/produkNameSearch',limiter, authenticateToken, produkController.searchProdukByName);
+// app.put('/produk', authenticateToken, produkController.updateProduk);
+// app.delete('/produk', authenticateToken, produkController.deleteProduk);
 
 app.post('/usersMongo', async (req, res) => {
   const { name, email, age } = req.body;
