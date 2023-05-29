@@ -97,6 +97,8 @@ app.post('/usersMongo', async (req, res) => {
 // ----------------------------------------------------------------- end API Block ---------------------------------------------------
 
 // Menjalankan server
-app.listen(port, () => {
-  console.log(`Server berjalan pada port ${port}`);
+const server = app.listen(port, () => {
+  const host = server.address().address;
+  const port = server.address().port;
+  console.log(`Server berjalan pada host ${host} dan port ${port}`);
 });
