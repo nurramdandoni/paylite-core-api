@@ -1,15 +1,8 @@
 const { Sequelize } = require('sequelize');
 // Koneksi ke database MySQL server Paylite
-// const connection = mysql.createConnection({
-//   host: 'paylite.co.id',
-//   user: 'u1577154_super',
-//   password: 'Paylite2022q@',
-//   database: 'u1577154_paylite'
-// });
-// Koneksi ke database MySQL server Local
 // Inisialisasi koneksi ke database
-const sequelize = new Sequelize('paylitecoreapi', 'root', '', {
-  host: 'localhost',
+const sequelize = new Sequelize('u1577154_paylite', 'u1577154_super', 'Paylite2022q@', {
+  host: 'paylite.co.id',
   dialect: 'mysql'
 });
 
