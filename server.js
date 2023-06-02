@@ -72,11 +72,12 @@ app.get('/', (req, res) => {
 // api Login
 // app.post('/login',limiter, userController.searchUser);
 // api Produk
-app.post('/produk',limiter,authenticateToken, produkController.createProduk);
-app.post('/bulkProduk', authenticateToken, produkController.createProdukByCsv);
-app.get('/produk',limiter, authenticateToken, produkController.searchProduk);
-app.get('/produk/:idbarcode',limiter, authenticateToken, produkController.searchProdukByBarcode);
-app.post('/produkNameSearch',limiter, authenticateToken, produkController.searchProdukByName);
+// app.post('/produk',limiter,authenticateToken, produkController.createProduk);
+app.post('/produk',limiter, produkController.createProduk);
+app.post('/bulkProduk', produkController.createProdukByCsv);
+app.get('/produk',limiter, produkController.searchProduk);
+app.get('/produk/:idbarcode',limiter, produkController.searchProdukByBarcode);
+app.post('/produkNameSearch',limiter, produkController.searchProdukByName);
 app.put('/produk', authenticateToken, produkController.updateProduk);
 app.delete('/produk', authenticateToken, produkController.deleteProduk);
 
