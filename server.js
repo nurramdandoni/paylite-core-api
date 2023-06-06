@@ -66,7 +66,7 @@ app.get('/users', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Server berjalan dengan baik!');
+  res.status(200).json({ status: 'Sukses', message:"API Paylite Server Berjalan Baik!"});
 });
 
 // api Login
