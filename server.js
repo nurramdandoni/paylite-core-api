@@ -4,7 +4,7 @@ const rateLimit = require('express-rate-limit');
 
 
 const app = express();
-const port = 5000;
+const port = 4000;
 
 // Menerapkan pembatasan tingkat permintaan secara umum
 const limiter = rateLimit({
