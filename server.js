@@ -66,7 +66,7 @@ app.get('/users', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.status(200).json({ status: 'Sukses', message:"API Paylite Server Berjalan Baik!"});
+  res.status(200).json({ status: 'Sukses', message:"API Paylite Server Berjalan Baik CI/CD With Jenkins Docker Container!"});
 });
 
 // api Login
