@@ -1,7 +1,6 @@
 const express = require('express');
 const jwtLib = require('./config/jwt');
 const rateLimit = require('express-rate-limit');
-const fs = require('fs');
 
 
 const app = express();
@@ -68,23 +67,6 @@ app.get('/users', (req, res) => {
 
 app.get('/', (req, res) => {
   res.status(200).json({ status: 'Sukses', message:"API Paylite Server Berjalan Baik CI/CD With Jenkins Docker Container!"});
-});
-
-// api cek version
-app.get('/version', (req, res) => {
-  const versionFilePath = './version'; // Ubah sesuai dengan path file "version" di root aplikasi Anda
-  
-  fs.readFile(versionFilePath, 'utf8', (err, data) => {
-    if (err) {
-      // Tangani kesalahan jika gagal membaca file
-      console.error('Gagal membaca file version:', err);
-      res.status(500).send('Terjadi kesalahan pada server');
-    } else {
-      // Kirim isi file version sebagai respons
-      logger.info('Membaca file version');
-      res.send(data);
-    }
-  });
 });
 
 // api Login
