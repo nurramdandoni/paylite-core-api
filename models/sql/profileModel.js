@@ -33,6 +33,10 @@ const Profile = sequelize.define("profiles", {
     type: Sequelize.STRING,
     allowNull: true,
   },
+  wa_number: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
   picture: {
     type: Sequelize.STRING,
     allowNull: true,
@@ -82,7 +86,14 @@ async function findProfile(profile_id) {
   async function insertProfile(data) {
     try {
       const newProfile = await Profile.create({
-        full_name: data.username
+        full_name:data.fullName,
+        location:data.location,
+        gender:data.gender,
+        kyc_type:data.kycType,
+        kyc_number:data.kycNumber,
+        kyc_image:data.kycImage,
+        wa_number:data.waNumber,
+        picture:data.picture
       });
 
       return {
@@ -105,9 +116,14 @@ async function findProfile(profile_id) {
     try {
       const updatedProfile = await Profile.update(
         {
-          username: data.username,
-          password: data.password,
-          role: data.role,
+          full_name:data.fullName,
+          gender:data.gender,
+          location:data.location,
+          kyc_type:data.kycType,
+          kyc_number:data.kycNumber,
+          kyc_image:data.kycImage,
+          wa_number:data.waNumber,
+          picture:data.picture
         },
         {
           where: { profile_id: profile_id },
