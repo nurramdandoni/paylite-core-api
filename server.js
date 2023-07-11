@@ -3,7 +3,7 @@ const jwtLib = require("./config/jwt");
 const rateLimit = require("express-rate-limit");
 
 const app = express();
-const port = 5000;
+const port = 4000;
 
 // Menerapkan pembatasan tingkat permintaan secara umum
 const limiter = rateLimit({
@@ -60,10 +60,9 @@ app.get("/users", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res
-    .status(200)
-    .json({ status: "Sukses", message: "API Paylite Server Berjalan Baik!" });
+
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'Sukses', message:"API Paylite Server Berjalan Baik CI/CD With Jenkins Docker Container!"});
 });
 
 // api Login
