@@ -85,6 +85,23 @@ app.get(
   },
   profileController.findProfile
 );
+app.put(
+  "/profile/:profile_id",
+  limiter,
+  authenticateToken,
+  (req, res, next) => {
+    const profileId = req.params.profile_id;
+
+    // Cek apakah profileId adalah angka
+    if (!/^\d+$/.test(profileId)) {
+      return res.status(400).send("Bad Request");
+    }
+
+    // Lanjutkan ke controller jika profileId valid
+    next();
+  },
+  profileController.updateProfile
+);
 
 // api Produk
 app.post("/produk", limiter, authenticateToken, produkController.createProduk);
