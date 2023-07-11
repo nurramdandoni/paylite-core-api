@@ -1,0 +1,33 @@
+Paylite Adalah Super Apps
+
+Core    = semua function/diawali core***** contoh : corefindProdukByBarcode = artinya paylite cari produk global
+
+Penjabaran : Paylite memiliki tujuan bahwa input data cukup sekali, sisanya anda perbaharui
+Studi Kasus: saat seorang mitra memiliki toko dan akan menggunakan paylite retail. Maka Mitra akan melakukan input data gudang
+namun saat barcode discan oleh mitra akan otomatis menampikan nama produk tersebut, dimana mitra cukup melakukan input stoknya.
+tapi saat data tidak ditemukan maka mitra diminta memasukan nama produk, ukuran dan kemasan. hal ini akan memudahkan mitra lain yang terbantu.
+-------------------
+
+Agency  = semua function/diawali agen***** contoh : agenfindMemberByBarcode = artinya agen cari data member miliknya
+Penjabaran : Paylite memiliki tujuan sukses bersama dimana kami tidak memiliki tim yang banyak, namun ingin bekerja sama dengan masyarakat
+Studi Kasus : Saat agen menginformasikan, mendaftarakan mitra dan terjadi transaksi berlangganan. maka setiap bulan, agen akan mendapatkan komisi. 
+selamanya dengan catatan, mitra tetap menggunakan layanan setiap bulan dan dapat diwariskan.
+-------------------
+
+Mitra   = semua function/diawali  mitra**** contoh : mitrafindProdukByBarcode = artinya mitra cari data produk miliknya di gudang
+Penjabaran : Paylite ingin setiap Mitra dengan bebas mengelola datanya secara realtime, cepat dan efisien. maka kami menggunakan basis data
+berbasis JSON, sehingga mempercepat proses data.
+Studi Kasus : Akan sangat diperlukan oleh mitra untuk melakukan pengecekan data, melakukan catatan transaksi, pembuatan invoice dan laporan
+memerlukan kecepatan yang optimal, maka dengan adanya segmentasi data dengan perbedaan function akan mengurangi banyaknya query dan memeprcepat penyajian data.
+-------------------
+
+EndUser = semua function/diawali end****** contoh : endfindKeranjangByBarcode = artinya user cari produk miliknya dalam keranjangnya
+Penjabaran : Dimungkinkan seorang User memilih produk secara global dan dimasukan kedalam keranjang dan dilakukan COD diwaktu yang lain di tempat yang lain
+Studi Kasus : Ada Opsi dimana seorang user memilih 10 produk di wilayah A dan memasukanya kedalam keranjang, namun untuk alasan tertentu
+User berpindah posisi dimana di merasa 10 produk akan ada di wilayah A namun karena berpindah posisi dan saat di tukar di toko B wilayah C
+maka yang tersedia hanya 8, dengan ada informasi data tidak tersedia di toko A. dan dapat mencari toko yang lain yang sesuai dengan semua pesanan.
+-------------------
+
+
+API Core/ Model Core (Akhiran Core) adalah public
+Misalnya : findProdukByBarcode : artinya produk milik Paylite (Gabungan dari semua orang)
