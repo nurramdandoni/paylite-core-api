@@ -49,6 +49,7 @@ function authenticateToken(req, res, next) {
 const produkController = require("./controllers/produk");
 const userController = require("./controllers/user");
 const profileController = require("./controllers/profile");
+const produkPayliteController = require("./controllers/produkPaylite");
 // ----------------------------------------------------------------- end Controller BLock -------------------------------------------------------
 
 // ----------------------------------------------------------------- start API BLock -------------------------------------------------------
@@ -65,9 +66,12 @@ app.get('/', (req, res) => {
   res.status(200).json({ status: 'Sukses', message:"API Paylite Server Berjalan Baik CI/CD With Jenkins Docker Container!"});
 });
 
-// api Login
+// api Global
+app.get("/produkPaylite",produkPayliteController.searchProdukPaylite);
+app.get("/produkPaylite/:payliteProdukId",produkPayliteController.searchProdukPayliteById);
+app.post("/produkPaylite",produkPayliteController.createProdukPaylite);
+app.put("/produkPaylite/:payliteProdukId",produkPayliteController.updateProdukPaylite);
 app.post("/login",userController.searchUser);
-// api profile
 app.get(
   "/profile/:profile_id",
   limiter,
@@ -103,24 +107,24 @@ app.put(
   profileController.updateProfile
 );
 
-// api Produk
-app.post("/produk", limiter, authenticateToken, produkController.createProduk);
-app.post("/bulkProduk", authenticateToken, produkController.createProdukByCsv);
-app.get("/produk", limiter, authenticateToken, produkController.searchProduk);
+// api Produk Retail
+app.post("/produkRetail", limiter, authenticateToken, produkController.createProduk);
+app.post("/bulkProdukRetail", authenticateToken, produkController.createProdukByCsv);
+app.get("/produkRetail", limiter, authenticateToken, produkController.searchProduk);
 app.get(
-  "/produk/:idbarcode",
+  "/produkRetail/:idbarcode",
   limiter,
   authenticateToken,
   produkController.searchProdukByBarcode
 );
 app.post(
-  "/produkNameSearch",
+  "/produkRetailNameSearch",
   limiter,
   authenticateToken,
   produkController.searchProdukByName
 );
-app.put("/produk", authenticateToken, produkController.updateProduk);
-app.delete("/produk", authenticateToken, produkController.deleteProduk);
+app.put("/produkRetail", authenticateToken, produkController.updateProduk);
+app.delete("/produkRetail", authenticateToken, produkController.deleteProduk);
 
 app.post("/usersMongo", async (req, res) => {
   const { name, email, age } = req.body;
