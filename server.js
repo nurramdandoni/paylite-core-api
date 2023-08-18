@@ -55,6 +55,7 @@ const programController = require("./controllers/program");
 const subscriberController = require("./controllers/subscriber");
 const eduUserController = require("./controllers/eduUser");
 const jenjangPendidikanController = require("./controllers/jenjangPendidikan");
+const lembagaPendidikanController = require("./controllers/lembagaPendidikan");
 // ----------------------------------------------------------------- end Controller BLock -------------------------------------------------------
 
 // ----------------------------------------------------------------- start API BLock -------------------------------------------------------
@@ -101,6 +102,11 @@ app.get("/jenjangPendidikan",jenjangPendidikanController.searchJenjangPendidikan
 app.get("/jenjangPendidikan/:jenjangPendidikanId",jenjangPendidikanController.findJenjangPendidikanById);
 app.post("/jenjangPendidikan",jenjangPendidikanController.createJenjangPendidikan);
 app.put("/jenjangPendidikan/:jenjangPendidikanId",jenjangPendidikanController.updateJenjangPendidikan);
+
+app.get("/lembagaPendidikan",lembagaPendidikanController.searchLembagaPendidikan);
+app.get("/lembagaPendidikan/:lembagaPendidikanId",lembagaPendidikanController.findLembagaPendidikanById);
+app.post("/lembagaPendidikan",lembagaPendidikanController.createLembagaPendidikan);
+app.put("/lembagaPendidikan/:lembagaPendidikanId",lembagaPendidikanController.updateLembagaPendidikan);
 
 app.post("/login",userController.searchUser);
 app.get(
