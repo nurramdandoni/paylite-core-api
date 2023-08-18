@@ -52,6 +52,7 @@ const profileController = require("./controllers/profile");
 const produkPayliteController = require("./controllers/produkPaylite");
 const roleProdukController = require("./controllers/roleProduk");
 const programController = require("./controllers/program");
+const subscriberController = require("./controllers/subscriber");
 // ----------------------------------------------------------------- end Controller BLock -------------------------------------------------------
 
 // ----------------------------------------------------------------- start API BLock -------------------------------------------------------
@@ -83,6 +84,11 @@ app.get("/program",programController.searchProgram);
 app.get("/program/:programId",programController.findProgramById);
 app.post("/program",programController.createProgram);
 app.put("/program/:programId",programController.updateProgram);
+
+app.get("/subscriber",subscriberController.searchSubscriber);
+app.get("/subscriber/:subscriberId",subscriberController.findSubscriberById);
+app.post("/subscriber",subscriberController.createSubscriber);
+app.put("/subscriber/:subscriberId",subscriberController.updateSubscriber);
 
 app.post("/login",userController.searchUser);
 app.get(

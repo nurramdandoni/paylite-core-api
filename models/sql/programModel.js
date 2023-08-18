@@ -111,7 +111,7 @@ async function createProgram(data) {
         start_date:data.start_date,
         end_date:data.end_date,
         status:data.status,
-        descriptio:data.description
+        description:data.description
       });
   
       return {
@@ -140,7 +140,7 @@ async function updateProgram(ProgramId, data) {
         start_date:data.start_date,
         end_date:data.end_date,
         status:data.status,
-        descriptio:data.description
+        description:data.description
       },
       {
         where: { program_id: ProgramId },
