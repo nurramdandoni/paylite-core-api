@@ -5,6 +5,10 @@ const sequelize = new Sequelize('u1577154_paylite', 'u1577154_super', 'Paylite20
   host: 'paylite.co.id',
   dialect: 'mysql'
 });
+// const sequelize = new Sequelize('paylitecoreapi', 'root', '', {
+//   host: 'localhost',
+//   dialect: 'mysql'
+// });
 
 // Cek koneksi ke database
 sequelize.authenticate()
