@@ -51,7 +51,7 @@ async function loginProses(username, password) {
     } else {
       return {
         status: "Error",
-        message: "Pengguna Tidak Ditemukan!",
+        message: "Data Tidak Ditemukan!",
         data: users,
       };
     }
@@ -77,7 +77,7 @@ async function loginOauth2(email) {
     } else {
       return {
         status: "Error",
-        message: "Pengguna Tidak Ditemukan!",
+        message: "Data Tidak Ditemukan!",
         data: users,
       };
     }
@@ -103,14 +103,14 @@ async function insertUser(data) {
 
     return {
       status: "Sukses",
-      message: "Data user berhasil disisipkan!",
+      message: "Data Berhasil Ditambahkan!",
       data: newUser,
     };
   } catch (error) {
     console.error(error);
     return {
       status: "Error",
-      message: "Terjadi Kesalahan saat menyisipkan data user!",
+      message: "Terjadi Kesalahan Saat Menambahkan Data!",
       data: error.message,
     };
   }
@@ -131,15 +131,15 @@ async function updateUser(userId, data) {
     );
 
     if (updatedUser[0] > 0) {
-      return { status: "Sukses", message: "Data user berhasil diperbarui!" };
+      return { status: "Sukses", message: "Data Berhasil Diperbarui!" };
     } else {
-      return { status: "Error", message: "Data user tidak ditemukan!" };
+      return { status: "Error", message: "Data Tidak Ditemukan!" };
     }
   } catch (error) {
     console.error(error);
     return {
       status: "Error",
-      message: "Terjadi Kesalahan saat memperbarui data user!",
+      message: "Terjadi Kesalahan Saat Memperbarui Data!",
       data: error.message,
     };
   }

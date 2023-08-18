@@ -58,7 +58,7 @@ exports.searchProdukPaylite = async (req, res) => {
     res.status(500).json(response500);
   }
 };
-// get data produkPaylite by barcode
+// get data produkPaylite by id
 exports.searchProdukPayliteById = async (req, res) => {
     const payliteProdukId = req.params.payliteProdukId;
 

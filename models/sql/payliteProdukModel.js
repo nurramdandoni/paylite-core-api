@@ -51,8 +51,8 @@ async function findProdukPayliteById(paylite_produk_id) {
       } else {
         return {
           status: "Error",
-          message: "Paylite Produk Tidak Ditemukan!",
-          data: profiles,
+          message: "Data Tidak Ditemukan!",
+          data: payliteProduk,
         };
       }
     } catch (error) {
@@ -73,8 +73,8 @@ async function findProdukPaylite() {
       } else {
         return {
           status: "Error",
-          message: "Paylite Produk Tidak Ditemukan!",
-          data: profiles,
+          message: "Data Tidak Ditemukan!",
+          data: payliteProduk,
         };
       }
     } catch (error) {
@@ -90,41 +90,35 @@ async function findProdukPaylite() {
 async function createProdukPaylite(data) {
     try {
       const PayliteProduknew = await PayliteProduk.create({
-        paylite_produk_id: data.payliteProdukId,
-        paylite_produk_name: data.payliteProdukName,
-        price_month: data.priceMonth,
-        price_day: data.priceDay,
+        paylite_produk_id: data.paylite_produk_id,
+        paylite_produk_name: data.paylite_produk_name,
+        price_month: data.price_month,
+        price_day: data.price_day,
         description: data.description,
       });
   
       return {
         status: "Sukses",
-        message: "Data Paylite Produk berhasil disisipkan!",
+        message: "Data Berhasil Ditambahkan!",
         data: PayliteProduknew,
       };
     } catch (error) {
       console.error(error);
       return {
         status: "Error",
-        message: "Terjadi Kesalahan saat menyisipkan Data Paylite Produk!",
+        message: "Terjadi Kesalahan Saat Menambahkan Data!",
         data: error.message,
       };
     }
   }
 // Memperbarui data
 async function updateProdukPaylite(payliteProdukId, data) {
-    const d = {
-        paylite_produk_name: data.payliteProdukName,
-        price_month: data.priceMonth,
-        price_day: data.priceDay,
-        description: data.description,
-      }
   try {
     const updatedProdukPaylite = await PayliteProduk.update(
       {
-        paylite_produk_name: data.payliteProdukName,
-        price_month: data.priceMonth,
-        price_day: data.priceDay,
+        paylite_produk_name: data.paylite_produk_name,
+        price_month: data.price_month,
+        price_day: data.price_day,
         description: data.description,
       },
       {
@@ -133,15 +127,15 @@ async function updateProdukPaylite(payliteProdukId, data) {
     );
 
     if (updatedProdukPaylite[0] > 0) {
-      return { status: "Sukses", message: "Data Paylite Produk berhasil diperbarui!" };
+      return { status: "Sukses", message: "Data Berhasil Diperbarui!" };
     } else {
-      return { status: "Error", message: "Data Paylite Produk tidak ditemukan!" };
+      return { status: "Error", message: "Data Tidak Ditemukan!" };
     }
   } catch (error) {
     console.error(error);
     return {
       status: "Error",
-      message: "Terjadi Kesalahan saat memperbarui data Paylite Produk!",
+      message: "Terjadi Kesalahan Saat Memperbaharui Data!",
       data: error.message,
     };
   }

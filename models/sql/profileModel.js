@@ -68,7 +68,7 @@ async function findProfile(profile_id) {
     } else {
       return {
         status: "Error",
-        message: "Profile Tidak Ditemukan!",
+        message: "Data Tidak Ditemukan!",
         data: profiles,
       };
     }
@@ -98,14 +98,14 @@ async function findProfile(profile_id) {
 
       return {
         status: "Sukses",
-        message: "Data Profile berhasil disisipkan!",
+        message: "Data Berhasil Ditambahkan!",
         data: newProfile,
       };
     } catch (error) {
       console.error(error);
       return {
         status: "Error",
-        message: "Terjadi Kesalahan saat menyisipkan Data Profile!",
+        message: "Terjadi Kesalahan Saat Menambahkan Data!",
         data: error.message,
       };
     }
@@ -131,15 +131,15 @@ async function findProfile(profile_id) {
       );
 
       if (updatedProfile[0] > 0) {
-        return { status: "Sukses", message: "Data user berhasil diperbarui!" };
+        return { status: "Sukses", message: "Data Berhasil Diperbaharui!" };
       } else {
-        return { status: "Error", message: "Data user tidak ditemukan!" };
+        return { status: "Error", message: "Data Tidak Ditemukan!" };
       }
     } catch (error) {
       console.error(error);
       return {
         status: "Error",
-        message: "Terjadi Kesalahan saat memperbarui data user!",
+        message: "Terjadi Kesalahan Saat Memperbaharui Data!",
         data: error.message,
       };
     }
