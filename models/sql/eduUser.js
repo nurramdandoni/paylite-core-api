@@ -45,7 +45,7 @@ async function findEduUserById(edu_user_id) {
       } else {
         return {
           status: "Error",
-          message: "Role Tidak Ditemukan!",
+          message: "Data Tidak Ditemukan!",
           data: edu_user,
         };
       }

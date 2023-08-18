@@ -65,7 +65,7 @@ async function findProgramById(program_id) {
       } else {
         return {
           status: "Error",
-          message: "Role Tidak Ditemukan!",
+          message: "Data Tidak Ditemukan!",
           data: program,
         };
       }
@@ -148,7 +148,7 @@ async function updateProgram(ProgramId, data) {
     );
 
     if (updatedProgram[0] > 0) {
-      return { status: "Sukses", message: "Data Produk Berhasil Diperbaharui!" };
+      return { status: "Sukses", message: "Data Berhasil Diperbaharui!" };
     } else {
       return { status: "Error", message: "Data Tidak Ditemukan!" };
     }

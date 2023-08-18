@@ -65,7 +65,7 @@ async function findSubscriberById(subscriber_id) {
       } else {
         return {
           status: "Error",
-          message: "Role Tidak Ditemukan!",
+          message: "Data Tidak Ditemukan!",
           data: subscriber,
         };
       }
@@ -116,7 +116,7 @@ async function createSubscriber(data) {
   
       return {
         status: "Sukses",
-        message: "Data Produk Berhasil Ditambahkan!",
+        message: "Data Berhasil Ditambahkan!",
         data: subscriber,
       };
     } catch (error) {
@@ -148,7 +148,7 @@ async function updateSubscriber(subscriberId, data) {
     );
 
     if (subscriber[0] > 0) {
-      return { status: "Sukses", message: "Data Produk Berhasil Diperbaharui!" };
+      return { status: "Sukses", message: "Data Berhasil Diperbaharui!" };
     } else {
       return { status: "Error", message: "Data Tidak Ditemukan!" };
     }

@@ -1,25 +1,25 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../../config/db_mysql");
 
-// Definisikan model paylite_produk
-const RoleProduk = sequelize.define("role_produk", {
-role_produk_id: {
+// Definisikan model jenjang pendidikan
+const JenjangPendidikan = sequelize.define("jenjang_pendidikan", {
+  jenjang_pendidikan_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
   },
-  paylite_produk_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  role_name: {
+  nama_jenjang: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  show_public: {
+  description: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: true,
   },
   createdAt: {
     type: Sequelize.DATE,
@@ -30,24 +30,27 @@ role_produk_id: {
     type: Sequelize.DATE,
     allowNull: false,
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
   },
-});
+  {
+    tableName: "jenjang_pendidikan",
+  });
 
-// Fungsi untuk menampilkan paylite role produk by id
-async function findRoleProdukById(role_produk_id) {
+// Fungsi untuk menampilkan jenjang pendidikan by id
+async function findJenjangPendidikanById(jenjang_pendidikan_id) {
     try {
-      const roleProduk = await RoleProduk.findOne({
+      const jenjang_pendidikan = await JenjangPendidikan.findOne({
         where: {
-          role_produk_id: role_produk_id,
+          jenjang_pendidikan_id: jenjang_pendidikan_id,
         },
       });
-      if (roleProduk != null) {
-        return { status: "Sukses", message: "Data Ditemukan!", data: roleProduk };
+      if (jenjang_pendidikan != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: jenjang_pendidikan };
       } else {
         return {
           status: "Error",
-          message: "Role Tidak Ditemukan!",
-          data: roleProduk,
+          message: "Data Tidak Ditemukan!",
+          data: jenjang_pendidikan,
         };
       }
     } catch (error) {
@@ -59,17 +62,17 @@ async function findRoleProdukById(role_produk_id) {
       };
     }
   }
-// Fungsi untuk menampilkan paylite role produk all
-async function findRoleProduk() {
+// Fungsi untuk menampilkan jenjang pendidikan all
+async function findJenjangPendidikan() {
     try {
-      const roleProduks = await RoleProduk.findAll();
-      if (roleProduks != null) {
-        return { status: "Sukses", message: "Data Ditemukan!", data: roleProduks };
+      const jenjang_pendidikan = await JenjangPendidikan.findAll();
+      if (jenjang_pendidikan != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: jenjang_pendidikan };
       } else {
         return {
           status: "Error",
           message: "Data Tidak Ditemukan!",
-          data: roleProduks,
+          data: jenjang_pendidikan,
         };
       }
     } catch (error) {
@@ -82,18 +85,19 @@ async function findRoleProduk() {
     }
   }
 // Menyisipkan data baru
-async function createRoleProduk(data) {
+async function createJenjangPendidikan(data) {
     try {
-      const roleProduk = await RoleProduk.create({
-        paylite_produk_id: data.paylite_produk_id,
-        role_name: data.role_name,
-        show_public: data.show_public
+      const jenjang_pendidikan = await JenjangPendidikan.create({
+        jenjang_pendidikan_id:data.jenjang_pendidikan_id,
+        nama_jenjang:data.nama_jenjang,
+        description:data.description,
+        status:data.status,
       });
   
       return {
         status: "Sukses",
         message: "Data Produk Berhasil Ditambahkan!",
-        data: roleProduk,
+        data: jenjang_pendidikan,
       };
     } catch (error) {
       console.error(error);
@@ -105,20 +109,22 @@ async function createRoleProduk(data) {
     }
   }
 // Memperbarui data
-async function updateRoleProduk(RoleProdukId, data) {
+async function updateJenjangPendidikan(JenjangPendidikanId, data) {
+    console.log(data)
   try {
-    const updatedRoleproduks = await RoleProduk.update(
+    const jenjang_pendidikan = await JenjangPendidikan.update(
       {
-        paylite_produk_id: data.paylite_produk_id,
-        role_name: data.role_name,
-        show_public: data.show_public
+        jenjang_pendidikan_id:data.jenjang_pendidikan_id,
+        nama_jenjang:data.nama_jenjang,
+        description:data.description,
+        status:data.status,
       },
       {
-        where: { role_produk_id: RoleProdukId },
+        where: { jenjang_pendidikan_id: JenjangPendidikanId },
       }
     );
 
-    if (updatedRoleproduks[0] > 0) {
+    if (jenjang_pendidikan[0] > 0) {
       return { status: "Sukses", message: "Data Berhasil Diperbaharui!" };
     } else {
       return { status: "Error", message: "Data Tidak Ditemukan!" };
@@ -133,4 +139,4 @@ async function updateRoleProduk(RoleProdukId, data) {
   }
 }
 
-module.exports = { findRoleProduk, createRoleProduk,findRoleProdukById, updateRoleProduk };
+module.exports = { findJenjangPendidikan, createJenjangPendidikan,findJenjangPendidikanById, updateJenjangPendidikan };
