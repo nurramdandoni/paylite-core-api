@@ -70,6 +70,7 @@ const krsController = require("./controllers/krs");
 const hariController = require("./controllers/hari");
 const jadwalPelajaranController = require("./controllers/jadwalPelajaran");
 const absensiController = require("./controllers/absensi");
+const nilaiController = require("./controllers/nilai");
 // ----------------------------------------------------------------- end Controller BLock -------------------------------------------------------
 
 // ----------------------------------------------------------------- start API BLock -------------------------------------------------------
@@ -192,6 +193,11 @@ app.get("/absensi",absensiController.searchAbsensi);
 app.get("/absensi/:absensiId",absensiController.findAbsensiById);
 app.post("/absensi",absensiController.createAbsensi);
 app.put("/absensi/:absensiId",absensiController.updateAbsensi);
+
+app.get("/nilai",nilaiController.searchNilai);
+app.get("/nilai/:nilaiId",nilaiController.findNilaiById);
+app.post("/nilai",nilaiController.createNilai);
+app.put("/nilai/:nilaiId",nilaiController.updateNilai);
 
 app.post("/login",userController.searchUser);
 app.get(
