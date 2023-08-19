@@ -63,6 +63,7 @@ const tahunAjaranController = require("./controllers/tahunAjaran");
 const kurikulumController = require("./controllers/kurikulum");
 const siswaController = require("./controllers/siswa");
 const jabatanGuruController = require("./controllers/jabatanGuru");
+const guruController = require("./controllers/guru");
 // ----------------------------------------------------------------- end Controller BLock -------------------------------------------------------
 
 // ----------------------------------------------------------------- start API BLock -------------------------------------------------------
@@ -150,6 +151,11 @@ app.get("/jabatanGuru",jabatanGuruController.searchJabatanGuru);
 app.get("/jabatanGuru/:jabatanGuruId",jabatanGuruController.findJabatanGuruById);
 app.post("/jabatanGuru",jabatanGuruController.createJabatanGuru);
 app.put("/jabatanGuru/:jabatanGuruId",jabatanGuruController.updateJabatanGuru);
+
+app.get("/guru",guruController.searchGuru);
+app.get("/guru/:guruId",guruController.findGuruById);
+app.post("/guru",guruController.createGuru);
+app.put("/guru/:guruId",guruController.updateGuru);
 
 app.post("/login",userController.searchUser);
 app.get(
