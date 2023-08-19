@@ -59,6 +59,7 @@ const lembagaPendidikanController = require("./controllers/lembagaPendidikan");
 const prodiController = require("./controllers/prodi");
 const jurusanController = require("./controllers/jurusan");
 const mataAjarController = require("./controllers/mataAjar");
+const tahunAjaranController = require("./controllers/tahunAjaran");
 // ----------------------------------------------------------------- end Controller BLock -------------------------------------------------------
 
 // ----------------------------------------------------------------- start API BLock -------------------------------------------------------
@@ -125,6 +126,11 @@ app.get("/mataAjar",mataAjarController.searchMataAjar);
 app.get("/mataAjar/:mataAjarId",mataAjarController.findMataAjarById);
 app.post("/mataAjar",mataAjarController.createMataAjar);
 app.put("/mataAjar/:mataAjarId",mataAjarController.updateMataAjar);
+
+app.get("/tahunAjaran",tahunAjaranController.searchTahunAjaran);
+app.get("/tahunAjaran/:tahunAjaranId",tahunAjaranController.findTahunAjaranById);
+app.post("/tahunAjaran",tahunAjaranController.createTahunAjaran);
+app.put("/tahunAjaran/:tahunAjaranId",tahunAjaranController.updateTahunAjaran);
 
 app.post("/login",userController.searchUser);
 app.get(

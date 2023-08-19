@@ -1,9 +1,9 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../../config/db_mysql");
 
-// Definisikan model jurusan
-const Jurusan = sequelize.define("jurusan", {
-  jurusan_id: {
+// Definisikan model tahun ajaran
+const TahunAjaran = sequelize.define("tahun_ajaran", {
+  tahun_ajaran_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
     autoIncrement: true,
@@ -13,21 +13,9 @@ const Jurusan = sequelize.define("jurusan", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  nomor_legalitas: {
+  nama_tahun_ajaran: {
     type: Sequelize.STRING,
     allowNull: true,
-  },
-  sk_akreditasi: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
-  nama_jurusan: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  kepala_jurusan: {
-    type: Sequelize.STRING,
-    allowNull: false,
   },
   description: {
     type: Sequelize.STRING,
@@ -49,24 +37,24 @@ const Jurusan = sequelize.define("jurusan", {
   }, 
   },
   {
-    tableName: "jurusan",
+    tableName: "tahun_ajaran",
   });
 
-// Fungsi untuk menampilkan jurusan by id
-async function findJurusanById(jurusan_id) {
+// Fungsi untuk menampilkan jurutahun ajaran by id
+async function findTahunAjaranById(tahun_ajaran_id) {
     try {
-      const jurusan = await Jurusan.findOne({
+      const tahunAjaran = await TahunAjaran.findOne({
         where: {
-          jurusan_id: jurusan_id,
+          tahun_ajaran_id: tahun_ajaran_id,
         },
       });
-      if (jurusan != null) {
-        return { status: "Sukses", message: "Data Ditemukan!", data: jurusan };
+      if (tahunAjaran != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: tahunAjaran };
       } else {
         return {
           status: "Error",
           message: "Data Tidak Ditemukan!",
-          data: jurusan,
+          data: tahunAjaran,
         };
       }
     } catch (error) {
@@ -78,17 +66,17 @@ async function findJurusanById(jurusan_id) {
       };
     }
   }
-// Fungsi untuk menampilkan jurusan all
-async function findJurusan() {
+// Fungsi untuk menampilkan tahun ajaran all
+async function findTahunAjaran() {
     try {
-      const jurusan = await Jurusan.findAll();
-      if (jurusan != null) {
-        return { status: "Sukses", message: "Data Ditemukan!", data: jurusan };
+      const tahunAjaran = await TahunAjaran.findAll();
+      if (tahunAjaran != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: tahunAjaran };
       } else {
         return {
           status: "Error",
           message: "Data Tidak Ditemukan!",
-          data: jurusan,
+          data: tahunAjaran,
         };
       }
     } catch (error) {
@@ -101,15 +89,11 @@ async function findJurusan() {
     }
   }
 // Menyisipkan data baru
-async function createJurusan(data) {
+async function createTahunAjaran(data) {
     try {
-      const jurusan = await Jurusan.create({
+      const tahunAjaran = await TahunAjaran.create({
         lembaga_pendidikan_id: data.lembaga_pendidikan_id,
-        prodi_id: data.prodi_id,
-        nomor_legalitas: data.nomor_legalitas,
-        sk_akreditasi: data.sk_akreditasi,
-        nama_jurusan: data.nama_jurusan,
-        kepala_jurusan: data.kepala_jurusan,
+        nama_tahun_ajaran: data.nama_tahun_ajaran,
         description: data.description,
         status: data.status
       });
@@ -117,7 +101,7 @@ async function createJurusan(data) {
       return {
         status: "Sukses",
         message: "Data Produk Berhasil Ditambahkan!",
-        data: jurusan,
+        data: tahunAjaran,
       };
     } catch (error) {
       console.error(error);
@@ -129,26 +113,22 @@ async function createJurusan(data) {
     }
   }
 // Memperbarui data
-async function updateJurusan(JurusanId, data) {
+async function updateTahunAjaran(TahunAjaranId, data) {
     console.log(data)
   try {
-    const jurusan = await Jurusan.update(
+    const tahunAjaran = await TahunAjaran.update(
       {
         lembaga_pendidikan_id: data.lembaga_pendidikan_id,
-        prodi_id: data.prodi_id,
-        nomor_legalitas: data.nomor_legalitas,
-        sk_akreditasi: data.sk_akreditasi,
-        nama_jurusan: data.nama_jurusan,
-        kepala_jurusan: data.kepala_jurusan,
+        nama_tahun_ajaran: data.nama_tahun_ajaran,
         description: data.description,
         status: data.status
       },
       {
-        where: { jurusan_id: JurusanId },
+        where: { tahun_ajaran_id: TahunAjaranId },
       }
     );
 
-    if (jurusan[0] > 0) {
+    if (tahunAjaran[0] > 0) {
       return { status: "Sukses", message: "Data Berhasil Diperbaharui!" };
     } else {
       return { status: "Error", message: "Data Tidak Ditemukan!" };
@@ -163,4 +143,4 @@ async function updateJurusan(JurusanId, data) {
   }
 }
 
-module.exports = { findJurusan, createJurusan,findJurusanById, updateJurusan };
+module.exports = { findTahunAjaran, createTahunAjaran,findTahunAjaranById, updateTahunAjaran };
