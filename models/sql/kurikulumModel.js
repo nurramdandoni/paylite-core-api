@@ -161,4 +161,30 @@ async function updateKurikulum(KurikulumId, data) {
   }
 }
 
-module.exports = { findKurikulum, createKurikulum,findKurikulumById, updateKurikulum };
+// Fungsi untuk menampilkan kurikulum by where
+async function findKurikulumByWhere(whereData) {
+    // console.log(whereData)
+    try {
+      const kurikulum = await Kurikulum.findAll({
+        where: whereData,
+      });
+      if (kurikulum != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: kurikulum };
+      } else {
+        return {
+          status: "Error",
+          message: "Data Tidak Ditemukan!",
+          data: kurikulum,
+        };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
+
+module.exports = { findKurikulum, createKurikulum,findKurikulumById, updateKurikulum, findKurikulumByWhere };

@@ -139,6 +139,7 @@ app.get("/kurikulum",kurikulumController.searchKurikulum);
 app.get("/kurikulum/:kurikulumId",kurikulumController.findKurikulumById);
 app.post("/kurikulum",kurikulumController.createKurikulum);
 app.put("/kurikulum/:kurikulumId",kurikulumController.updateKurikulum);
+app.post("/kurikulumWhere",kurikulumController.findKurikulumByWhere);
 
 app.get("/siswa",siswaController.searchSiswa);
 app.get("/siswa/:siswaId",siswaController.findSiswaById);

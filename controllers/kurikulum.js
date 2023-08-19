@@ -1,4 +1,4 @@
-const { findKurikulum, createKurikulum,findKurikulumById, updateKurikulum } = require('../models/sql/kurikulumModel'); // Core API
+const { findKurikulum, createKurikulum,findKurikulumById, updateKurikulum, findKurikulumByWhere } = require('../models/sql/kurikulumModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -112,3 +112,32 @@ exports.updateKurikulum = async (req, res) => {
     res.status(500).json(response500);
   }
 };
+
+// get data kurikulum by custom
+exports.findKurikulumByWhere = async (req, res) => {
+    const KurikulumWhere = req.body;
+console.log(KurikulumWhere)
+    try{
+
+      const dataKurikulum = await findKurikulumByWhere(KurikulumWhere);
+  
+      if (dataKurikulum.status == "Sukses") {
+        const response = {
+          status:dataKurikulum.status,
+          message:dataKurikulum.message,
+          data:dataKurikulum.data
+        }
+        res.json(response);
+      } else {
+        const response = {
+          status:dataKurikulum.status,
+          message:dataKurikulum.message,
+          data:dataKurikulum.data
+        }
+        res.status(404).json(response);
+      }
+
+    }catch(error){
+      res.status(500).json(response500);
+    }
+  };
