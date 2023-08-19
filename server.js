@@ -68,6 +68,7 @@ const kelasController = require("./controllers/kelas");
 const dataKelasController = require("./controllers/dataKelas");
 const krsController = require("./controllers/krs");
 const hariController = require("./controllers/hari");
+const jadwalPelajaranController = require("./controllers/jadwalPelajaran");
 // ----------------------------------------------------------------- end Controller BLock -------------------------------------------------------
 
 // ----------------------------------------------------------------- start API BLock -------------------------------------------------------
@@ -180,6 +181,11 @@ app.get("/hari",hariController.searchHari);
 app.get("/hari/:hariId",hariController.findHariById);
 app.post("/hari",hariController.createHari);
 app.put("/hari/:hariId",hariController.updateHari);
+
+app.get("/jadwalPelajaran",jadwalPelajaranController.searchJadwalPelajaran);
+app.get("/jadwalPelajaran/:jadwalPelajaranId",jadwalPelajaranController.findJadwalPelajaranById);
+app.post("/jadwalPelajaran",jadwalPelajaranController.createJadwalPelajaran);
+app.put("/jadwalPelajaran/:jadwalPelajaranId",jadwalPelajaranController.updateJadwalPelajaran);
 
 app.post("/login",userController.searchUser);
 app.get(
