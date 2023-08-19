@@ -59,7 +59,7 @@ exports.searchProdi = async (req, res) => {
   }
 };
 // get data prodi by id
-exports.findprodiById = async (req, res) => {
+exports.findProdiById = async (req, res) => {
     const ProdiId = req.params.prodiId;
 
     try{
