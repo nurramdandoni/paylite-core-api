@@ -167,4 +167,30 @@ async function updateNilai(NilaiId, data) {
   }
 }
 
-module.exports = { findNilai, createNilai,findNilaiById, updateNilai };
+// Fungsi untuk menampilkan nilai by where
+async function findNilaiByWhere(whereData) {
+    // console.log(whereData)
+    try {
+      const dataNilai = await Nilai.findAll({
+        where: whereData,
+      });
+      if (dataNilai != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataNilai };
+      } else {
+        return {
+          status: "Error",
+          message: "Data Tidak Ditemukan!",
+          data: dataNilai,
+        };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
+
+module.exports = { findNilai, createNilai,findNilaiById, updateNilai, findNilaiByWhere };

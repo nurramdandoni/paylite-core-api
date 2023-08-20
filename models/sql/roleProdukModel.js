@@ -133,4 +133,30 @@ async function updateRoleProduk(RoleProdukId, data) {
   }
 }
 
-module.exports = { findRoleProduk, createRoleProduk,findRoleProdukById, updateRoleProduk };
+// Fungsi untuk menampilkan role produk by where
+async function findRoleProdukByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataRoleProduk = await RoleProduk.findAll({
+      where: whereData,
+    });
+    if (dataRoleProduk != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataRoleProduk };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataRoleProduk,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findRoleProduk, createRoleProduk,findRoleProdukById, updateRoleProduk, findRoleProdukByWhere };

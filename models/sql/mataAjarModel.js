@@ -149,4 +149,30 @@ async function updateMataAjar(MataAjarId, data) {
   }
 }
 
-module.exports = { findMataAjar, createMataAjar,findMataAjarById, updateMataAjar };
+// Fungsi untuk menampilkan mata ajar by where
+async function findMataAjarByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataMataAjar = await MataAjar.findAll({
+      where: whereData,
+    });
+    if (dataMataAjar != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataMataAjar };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataMataAjar,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findMataAjar, createMataAjar,findMataAjarById, updateMataAjar, findMataAjarByWhere };

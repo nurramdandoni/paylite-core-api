@@ -167,4 +167,30 @@ async function updateKrs(KrsId, data) {
   }
 }
 
-module.exports = { findKrs, createKrs,findKrsById, updateKrs };
+// Fungsi untuk menampilkan krs by where
+async function findKrsByWhere(whereData) {
+    // console.log(whereData)
+    try {
+      const dataKrs = await Krs.findAll({
+        where: whereData,
+      });
+      if (dataKrs != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataKrs };
+      } else {
+        return {
+          status: "Error",
+          message: "Data Tidak Ditemukan!",
+          data: dataKrs,
+        };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
+
+module.exports = { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere };

@@ -125,4 +125,30 @@ async function updateHari(HariId, data) {
   }
 }
 
-module.exports = { findHari, createHari,findHariById, updateHari };
+// Fungsi untuk menampilkan hari by where
+async function findHariByWhere(whereData) {
+    // console.log(whereData)
+    try {
+      const dataHari = await Hari.findAll({
+        where: whereData,
+      });
+      if (dataHari != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataHari };
+      } else {
+        return {
+          status: "Error",
+          message: "Data Tidak Ditemukan!",
+          data: dataHari,
+        };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
+
+module.exports = { findHari, createHari,findHariById, updateHari, findHariByWhere };

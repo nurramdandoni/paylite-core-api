@@ -162,4 +162,30 @@ async function updateSubscriber(subscriberId, data) {
   }
 }
 
-module.exports = { findSubscriber, createSubscriber,findSubscriberById, updateSubscriber };
+// Fungsi untuk menampilkan subscriber by where
+async function findSubscriberByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataSubscriber = await Subscriber.findAll({
+      where: whereData,
+    });
+    if (dataSubscriber != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataSubscriber };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataSubscriber,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findSubscriber, createSubscriber,findSubscriberById, updateSubscriber, findSubscriberByWhere };

@@ -139,4 +139,30 @@ async function updateJenjangPendidikan(JenjangPendidikanId, data) {
   }
 }
 
-module.exports = { findJenjangPendidikan, createJenjangPendidikan,findJenjangPendidikanById, updateJenjangPendidikan };
+// Fungsi untuk menampilkan jenjang pendidikan by where
+async function findJenjangPendidikanByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataJenjangPendidikan = await JenjangPendidikan.findAll({
+      where: whereData,
+    });
+    if (dataJenjangPendidikan != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataJenjangPendidikan };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataJenjangPendidikan,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findJenjangPendidikan, createJenjangPendidikan,findJenjangPendidikanById, updateJenjangPendidikan, findJenjangPendidikanByWhere };

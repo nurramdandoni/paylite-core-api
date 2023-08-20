@@ -209,4 +209,30 @@ async function updateLembagaPendidikan(LembagaPendidikanId, data) {
   }
 }
 
-module.exports = { findLembagaPendidikan, createLembagaPendidikan,findLembagaPendidikanById, updateLembagaPendidikan };
+// Fungsi untuk menampilkan lembaga pendidikan by where
+async function findLembagaPendidikanByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataLembagaPendidikan = await LembagaPendidikan.findAll({
+      where: whereData,
+    });
+    if (dataLembagaPendidikan != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataLembagaPendidikan };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataLembagaPendidikan,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findLembagaPendidikan, createLembagaPendidikan,findLembagaPendidikanById, updateLembagaPendidikan, findLembagaPendidikanByWhere };

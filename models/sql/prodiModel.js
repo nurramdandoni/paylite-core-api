@@ -161,4 +161,30 @@ async function updateProdi(ProdiId, data) {
   }
 }
 
-module.exports = { findProdi, createProdi,findProdiById, updateProdi };
+// Fungsi untuk menampilkan prodi by where
+async function findProdiByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataProdi = await Prodi.findAll({
+      where: whereData,
+    });
+    if (dataProdi != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataProdi };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataProdi,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findProdi, createProdi,findProdiById, updateProdi, findProdiByWhere };

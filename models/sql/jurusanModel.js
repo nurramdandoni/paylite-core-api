@@ -163,4 +163,30 @@ async function updateJurusan(JurusanId, data) {
   }
 }
 
-module.exports = { findJurusan, createJurusan,findJurusanById, updateJurusan };
+// Fungsi untuk menampilkan jurusan by where
+async function findJurusanByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataJurusan = await Jurusan.findAll({
+      where: whereData,
+    });
+    if (dataJurusan != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataJurusan };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataJurusan,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findJurusan, createJurusan,findJurusanById, updateJurusan, findJurusanByWhere };

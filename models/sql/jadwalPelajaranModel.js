@@ -167,4 +167,30 @@ async function updateJadwalPelajaran(JadwalPelajaranId, data) {
   }
 }
 
-module.exports = { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran };
+// Fungsi untuk menampilkan jadwal pelajaran by where
+async function findJadwalPelajaranByWhere(whereData) {
+    // console.log(whereData)
+    try {
+      const dataJadwalPelajaran = await JadwalPelajaran.findAll({
+        where: whereData,
+      });
+      if (dataJadwalPelajaran != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataJadwalPelajaran };
+      } else {
+        return {
+          status: "Error",
+          message: "Data Tidak Ditemukan!",
+          data: dataJadwalPelajaran,
+        };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
+
+module.exports = { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere };

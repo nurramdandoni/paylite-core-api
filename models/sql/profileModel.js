@@ -145,5 +145,30 @@ async function findProfile(profile_id) {
     }
   }
 
+// Fungsi untuk menampilkan prodi by where
+async function findProfileByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataProfile = await Profile.findAll({
+      where: whereData,
+    });
+    if (dataProfile != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataProfile };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataProfile,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
 
-module.exports = { findProfile, insertProfile, updateProfile };
+module.exports = { findProfile, insertProfile, updateProfile, findProfileByWhere };

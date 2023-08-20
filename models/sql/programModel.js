@@ -162,4 +162,30 @@ async function updateProgram(ProgramId, data) {
   }
 }
 
-module.exports = { findProgram, createProgram,findProgramById, updateProgram };
+// Fungsi untuk menampilkan program by where
+async function findProgramByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataProgram = await Program.findAll({
+      where: whereData,
+    });
+    if (dataProgram != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataProgram };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataProgram,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findProgram, createProgram,findProgramById, updateProgram, findProgramByWhere };

@@ -155,4 +155,30 @@ async function updateSiswa(SiswaId, data) {
   }
 }
 
-module.exports = { findSiswa, createSiswa,findSiswaById, updateSiswa };
+// Fungsi untuk menampilkan siswa by where
+async function findSiswaByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataSiswa = await Siswa.findAll({
+      where: whereData,
+    });
+    if (dataSiswa != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataSiswa };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataSiswa,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findSiswa, createSiswa,findSiswaById, updateSiswa, findSiswaByWhere };

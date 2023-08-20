@@ -125,4 +125,30 @@ async function updateJabatanGuru(JabatanGuruId, data) {
   }
 }
 
-module.exports = { findJabatanGuru, createJabatanGuru,findJabatanGuruById, updateJabatanGuru };
+// Fungsi untuk menampilkan jabatan guru by where
+async function findJabatanGuruByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataJabatanGuru = await JabatanGuru.findAll({
+      where: whereData,
+    });
+    if (dataJabatanGuru != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataJabatanGuru };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataJabatanGuru,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findJabatanGuru, createJabatanGuru,findJabatanGuruById, updateJabatanGuru, findJabatanGuruByWhere };

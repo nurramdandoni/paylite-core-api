@@ -149,4 +149,30 @@ async function updateDataKelas(DataKelasId, data) {
   }
 }
 
-module.exports = { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas };
+// Fungsi untuk menampilkan data kelas by where
+async function findDataKelasByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataKelas = await DataKelas.findAll({
+      where: whereData,
+    });
+    if (dataKelas != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataKelas };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataKelas,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas, findDataKelasByWhere };

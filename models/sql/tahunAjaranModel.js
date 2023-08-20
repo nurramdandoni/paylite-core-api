@@ -143,4 +143,30 @@ async function updateTahunAjaran(TahunAjaranId, data) {
   }
 }
 
-module.exports = { findTahunAjaran, createTahunAjaran,findTahunAjaranById, updateTahunAjaran };
+// Fungsi untuk menampilkan tahun ajaran by where
+async function findTahunAjaranByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataTahunAjaran = await TahunAjaran.findAll({
+      where: whereData,
+    });
+    if (dataTahunAjaran != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataTahunAjaran };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataTahunAjaran,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findTahunAjaran, createTahunAjaran,findTahunAjaranById, updateTahunAjaran, findTahunAjaranByWhere };

@@ -155,4 +155,30 @@ async function updateGuru(GuruId, data) {
   }
 }
 
-module.exports = { findGuru, createGuru,findGuruById, updateGuru };
+// Fungsi untuk menampilkan guru by where
+async function findGuruByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataGuru = await Guru.findAll({
+      where: whereData,
+    });
+    if (dataGuru != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataGuru };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataGuru,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findGuru, createGuru,findGuruById, updateGuru, findGuruByWhere };

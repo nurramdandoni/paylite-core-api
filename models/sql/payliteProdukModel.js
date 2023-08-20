@@ -141,4 +141,30 @@ async function updateProdukPaylite(payliteProdukId, data) {
   }
 }
 
-module.exports = { findProdukPaylite, createProdukPaylite,findProdukPayliteById, updateProdukPaylite };
+// Fungsi untuk menampilkan Produk paylite by where
+async function findProdukPayliteByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataProdukPaylite = await PayliteProduk.findAll({
+      where: whereData,
+    });
+    if (dataProdukPaylite != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataProdukPaylite };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataProdukPaylite,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findProdukPaylite, createProdukPaylite,findProdukPayliteById, updateProdukPaylite, findProdukPayliteByWhere };

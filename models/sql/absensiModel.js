@@ -150,4 +150,30 @@ async function updateAbsensi(AbsensiId, data) {
   }
 }
 
-module.exports = { findAbsensi, createAbsensi,findAbsensiById, updateAbsensi };
+// Fungsi untuk menampilkan absensi by where
+async function findAbsensiByWhere(whereData) {
+    // console.log(whereData)
+    try {
+      const dataAbsensi = await Absensi.findAll({
+        where: whereData,
+      });
+      if (dataAbsensi != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataAbsensi };
+      } else {
+        return {
+          status: "Error",
+          message: "Data Tidak Ditemukan!",
+          data: dataAbsensi,
+        };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
+
+module.exports = { findAbsensi, createAbsensi,findAbsensiById, updateAbsensi, findAbsensiByWhere };

@@ -131,4 +131,30 @@ async function updateEduUser(EduUserId, data) {
   }
 }
 
-module.exports = { findEduUser, createEduUser,findEduUserById, updateEduUser };
+// Fungsi untuk menampilkan edu user by where
+async function findEduUserByWhere(whereData) {
+  // console.log(whereData)
+  try {
+    const dataEduUser = await EduUser.findAll({
+      where: whereData,
+    });
+    if (dataEduUser != null) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataEduUser };
+    } else {
+      return {
+        status: "Error",
+        message: "Data Tidak Ditemukan!",
+        data: dataEduUser,
+      };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findEduUser, createEduUser,findEduUserById, updateEduUser, findEduUserByWhere };
