@@ -1,4 +1,4 @@
-const { findProdi, createProdi,findProdiById, updateProdi } = require('../models/sql/prodiModel'); // Core API
+const { findProdi, createProdi,findProdiById, updateProdi, findProdiByWhere } = require('../models/sql/prodiModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -110,6 +110,34 @@ exports.updateProdi = async (req, res) => {
           res.status(422).json(response);
         }
   } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// get prodi by custom
+exports.findProdiByWhere = async (req, res) => {
+  const DataWhere = req.body;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findProdiByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
     res.status(500).json(response500);
   }
 };

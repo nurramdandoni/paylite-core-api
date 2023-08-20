@@ -1,4 +1,4 @@
-const { findJabatanGuru, createJabatanGuru,findJabatanGuruById, updateJabatanGuru } = require('../models/sql/jabatanGuruModel'); // Core API
+const { findJabatanGuru, createJabatanGuru,findJabatanGuruById, updateJabatanGuru, findJabatanGuruByWhere } = require('../models/sql/jabatanGuruModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -109,6 +109,34 @@ exports.updateJabatanGuru = async (req, res) => {
           res.status(422).json(response);
         }
   } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// get data jabatan guru by custom
+exports.findJabatanGuruByWhere = async (req, res) => {
+  const DataWhere = req.body;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findJabatanGuruByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
     res.status(500).json(response500);
   }
 };

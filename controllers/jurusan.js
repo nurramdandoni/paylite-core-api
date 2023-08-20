@@ -1,4 +1,4 @@
-const { findJurusan, createJurusan,findJurusanById, updateJurusan } = require('../models/sql/jurusanModel'); // Core API
+const { findJurusan, createJurusan,findJurusanById, updateJurusan, findJurusanByWhere } = require('../models/sql/jurusanModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -110,6 +110,34 @@ exports.updateJurusan = async (req, res) => {
           res.status(422).json(response);
         }
   } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// get data jurusan by custom
+exports.findJurusanByWhere = async (req, res) => {
+  const DataWhere = req.body;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findJurusanByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
     res.status(500).json(response500);
   }
 };

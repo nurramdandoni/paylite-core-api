@@ -1,4 +1,4 @@
-const { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas } = require('../models/sql/dataKelasModel'); // Core API
+const { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas, findDataKelasByWhere } = require('../models/sql/dataKelasModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -109,6 +109,34 @@ exports.updateDataKelas = async (req, res) => {
           res.status(422).json(response);
         }
   } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// get data data kelas by custom
+exports.findDataKelasByWhere = async (req, res) => {
+  const DataWhere = req.body;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findDataKelasByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
     res.status(500).json(response500);
   }
 };

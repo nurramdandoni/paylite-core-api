@@ -1,4 +1,4 @@
-const { findSiswa, createSiswa,findSiswaById, updateSiswa } = require('../models/sql/siswaModel'); // Core API
+const { findSiswa, createSiswa,findSiswaById, updateSiswa, findSiswaByWhere } = require('../models/sql/siswaModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -109,6 +109,34 @@ exports.updateSiswa = async (req, res) => {
           res.status(422).json(response);
         }
   } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// get siswa by custom
+exports.findSiswaByWhere = async (req, res) => {
+  const DataWhere = req.body;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findSiswaByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
     res.status(500).json(response500);
   }
 };

@@ -92,56 +92,67 @@ app.get("/produkPaylite",produkPayliteController.searchProdukPaylite);
 app.get("/produkPaylite/:payliteProdukId",produkPayliteController.searchProdukPayliteById);
 app.post("/produkPaylite",produkPayliteController.createProdukPaylite);
 app.put("/produkPaylite/:payliteProdukId",produkPayliteController.updateProdukPaylite);
+app.post("/produkPayliteWhere",produkPayliteController.findProdukPayliteByWhere);
 
 app.get("/roleProduk",roleProdukController.searchRoleProduk);
 app.get("/roleProduk/:roleProdukId",roleProdukController.findRoleProdukById);
 app.post("/roleProduk",roleProdukController.createRoleProduk);
 app.put("/roleProduk/:roleProdukId",roleProdukController.updateRoleProduk);
+app.post("/roleProdukWhere",roleProdukController.findRoleProdukByWhere);
 
 app.get("/program",programController.searchProgram);
 app.get("/program/:programId",programController.findProgramById);
 app.post("/program",programController.createProgram);
 app.put("/program/:programId",programController.updateProgram);
+app.post("/programWhere",programController.findProgramByWhere);
 
 app.get("/subscriber",subscriberController.searchSubscriber);
 app.get("/subscriber/:subscriberId",subscriberController.findSubscriberById);
 app.post("/subscriber",subscriberController.createSubscriber);
 app.put("/subscriber/:subscriberId",subscriberController.updateSubscriber);
+app.post("/subscriberWhere",subscriberController.findSubscriberByWhere);
 
 app.get("/eduUser",eduUserController.searchEduUser);
 app.get("/eduUser/:eduUserId",eduUserController.findProgramById);
 app.post("/eduUser",eduUserController.createEduUser);
 app.put("/eduUser/:eduUserId",eduUserController.updateEduUser);
+app.post("/eduUserWhere",eduUserController.findEduUserByWhere);
 
 app.get("/jenjangPendidikan",jenjangPendidikanController.searchJenjangPendidikan);
 app.get("/jenjangPendidikan/:jenjangPendidikanId",jenjangPendidikanController.findJenjangPendidikanById);
 app.post("/jenjangPendidikan",jenjangPendidikanController.createJenjangPendidikan);
 app.put("/jenjangPendidikan/:jenjangPendidikanId",jenjangPendidikanController.updateJenjangPendidikan);
+app.post("/jenjangPendidikanWhere",jenjangPendidikanController.findJenjangPendidikanByWhere);
 
 app.get("/lembagaPendidikan",lembagaPendidikanController.searchLembagaPendidikan);
 app.get("/lembagaPendidikan/:lembagaPendidikanId",lembagaPendidikanController.findLembagaPendidikanById);
 app.post("/lembagaPendidikan",lembagaPendidikanController.createLembagaPendidikan);
 app.put("/lembagaPendidikan/:lembagaPendidikanId",lembagaPendidikanController.updateLembagaPendidikan);
+app.post("/lembagaPendidikanWhere",lembagaPendidikanController.findLembagaPendidikanByWhere);
 
 app.get("/prodi",prodiController.searchProdi);
 app.get("/prodi/:prodiId",prodiController.findProdiById);
 app.post("/prodi",prodiController.createProdi);
 app.put("/prodi/:prodiId",prodiController.updateProdi);
+app.post("/prodiWhere",prodiController.findProdiByWhere);
 
 app.get("/jurusan",jurusanController.searchJurusan);
 app.get("/jurusan/:jurusanId",jurusanController.findJurusanById);
 app.post("/jurusan",jurusanController.createJurusan);
 app.put("/jurusan/:jurusanId",jurusanController.updateJurusan);
+app.post("/jurusanWhere",jurusanController.findJurusanByWhere);
 
 app.get("/mataAjar",mataAjarController.searchMataAjar);
 app.get("/mataAjar/:mataAjarId",mataAjarController.findMataAjarById);
 app.post("/mataAjar",mataAjarController.createMataAjar);
 app.put("/mataAjar/:mataAjarId",mataAjarController.updateMataAjar);
+app.post("/mataAjarWhere",mataAjarController.findMataAjarByWhere);
 
 app.get("/tahunAjaran",tahunAjaranController.searchTahunAjaran);
 app.get("/tahunAjaran/:tahunAjaranId",tahunAjaranController.findTahunAjaranById);
 app.post("/tahunAjaran",tahunAjaranController.createTahunAjaran);
 app.put("/tahunAjaran/:tahunAjaranId",tahunAjaranController.updateTahunAjaran);
+app.post("/tahunAjaranWhere",tahunAjaranController.findTahunAjaranByWhere);
 
 app.get("/kurikulum",kurikulumController.searchKurikulum);
 app.get("/kurikulum/:kurikulumId",kurikulumController.findKurikulumById);
@@ -153,31 +164,37 @@ app.get("/siswa",siswaController.searchSiswa);
 app.get("/siswa/:siswaId",siswaController.findSiswaById);
 app.post("/siswa",siswaController.createSiswa);
 app.put("/siswa/:siswaId",siswaController.updateSiswa);
+app.post("/siswaWhere",siswaController.findSiswaByWhere);
 
 app.get("/jabatanGuru",jabatanGuruController.searchJabatanGuru);
 app.get("/jabatanGuru/:jabatanGuruId",jabatanGuruController.findJabatanGuruById);
 app.post("/jabatanGuru",jabatanGuruController.createJabatanGuru);
 app.put("/jabatanGuru/:jabatanGuruId",jabatanGuruController.updateJabatanGuru);
+app.post("/jabatanGuruWhere",jabatanGuruController.findJabatanGuruByWhere);
 
 app.get("/guru",guruController.searchGuru);
 app.get("/guru/:guruId",guruController.findGuruById);
 app.post("/guru",guruController.createGuru);
 app.put("/guru/:guruId",guruController.updateGuru);
+app.post("/guruWhere",guruController.findGuruByWhere);
 
 app.get("/kelas",kelasController.searchKelas);
 app.get("/kelas/:kelasId",kelasController.findKelasById);
 app.post("/kelas",kelasController.createKelas);
 app.put("/kelas/:kelasId",kelasController.updateKelas);
+app.post("/kelasWhere",kelasController.findKelasByWhere);
 
 app.get("/dataKelas",dataKelasController.searchDataKelas);
 app.get("/dataKelas/:dataKelasId",dataKelasController.findDataKelasById);
 app.post("/dataKelas",dataKelasController.createDataKelas);
 app.put("/dataKelas/:dataKelasId",dataKelasController.updateDataKelas);
+app.post("/dataKelasWhere",dataKelasController.findDataKelasByWhere);
 
 app.get("/krs",krsController.searchKrs);
 app.get("/krs/:krsId",krsController.findKrsById);
 app.post("/krs",krsController.createKrs);
 app.put("/krs/:krsId",krsController.updateKrs);
+app.post("/krsWhere",krsController.findKrsByWhere);
 
 app.get("/hari",hariController.searchHari);
 app.get("/hari/:hariId",hariController.findHariById);
@@ -188,16 +205,19 @@ app.get("/jadwalPelajaran",jadwalPelajaranController.searchJadwalPelajaran);
 app.get("/jadwalPelajaran/:jadwalPelajaranId",jadwalPelajaranController.findJadwalPelajaranById);
 app.post("/jadwalPelajaran",jadwalPelajaranController.createJadwalPelajaran);
 app.put("/jadwalPelajaran/:jadwalPelajaranId",jadwalPelajaranController.updateJadwalPelajaran);
+app.post("/jadwalPelajaranWhere",jadwalPelajaranController.findJadwalPelajaranByWhere);
 
 app.get("/absensi",absensiController.searchAbsensi);
 app.get("/absensi/:absensiId",absensiController.findAbsensiById);
 app.post("/absensi",absensiController.createAbsensi);
 app.put("/absensi/:absensiId",absensiController.updateAbsensi);
+app.post("/absensiWhere",absensiController.findAbsensiByWhere);
 
 app.get("/nilai",nilaiController.searchNilai);
 app.get("/nilai/:nilaiId",nilaiController.findNilaiById);
 app.post("/nilai",nilaiController.createNilai);
 app.put("/nilai/:nilaiId",nilaiController.updateNilai);
+app.post("/nilaiWhere",nilaiController.findNilaiByWhere);
 
 app.post("/login",userController.searchUser);
 app.get(

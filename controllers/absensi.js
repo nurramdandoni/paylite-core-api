@@ -1,4 +1,4 @@
-const { findAbsensi, createAbsensi,findAbsensiById, updateAbsensi } = require('../models/sql/absensiModel'); // Core API
+const { findAbsensi, createAbsensi,findAbsensiById, updateAbsensi, findAbsensiByWhere } = require('../models/sql/absensiModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -112,3 +112,32 @@ exports.updateAbsensi = async (req, res) => {
     res.status(500).json(response500);
   }
 };
+
+// get data absensi by custom
+exports.findAbsensiByWhere = async (req, res) => {
+    const DataWhere = req.body;
+console.log(DataWhere)
+    try{
+
+      const dataWhere = await findAbsensiByWhere(DataWhere);
+  
+      if (dataWhere.status == "Sukses") {
+        const response = {
+          status:dataWhere.status,
+          message:dataWhere.message,
+          data:dataWhere.data
+        }
+        res.json(response);
+      } else {
+        const response = {
+          status:dataWhere.status,
+          message:dataWhere.message,
+          data:dataWhere.data
+        }
+        res.status(404).json(response);
+      }
+
+    }catch(error){
+      res.status(500).json(response500);
+    }
+  };

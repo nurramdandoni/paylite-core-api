@@ -1,4 +1,4 @@
-const { findLembagaPendidikan, createLembagaPendidikan,findLembagaPendidikanById, updateLembagaPendidikan } = require('../models/sql/lembagaPendidikanModel'); // Core API
+const { findLembagaPendidikan, createLembagaPendidikan,findLembagaPendidikanById, updateLembagaPendidikan, findLembagaPendidikanByWhere } = require('../models/sql/lembagaPendidikanModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -110,6 +110,34 @@ exports.updateLembagaPendidikan = async (req, res) => {
           res.status(422).json(response);
         }
   } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// get lembaga pendidikan krs by custom
+exports.findLembagaPendidikanByWhere = async (req, res) => {
+  const DataWhere = req.body;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findLembagaPendidikanByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
     res.status(500).json(response500);
   }
 };

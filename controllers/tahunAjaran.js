@@ -1,4 +1,4 @@
-const { findTahunAjaran, createTahunAjaran,findTahunAjaranById, updateTahunAjaran } = require('../models/sql/tahunAjaranModel'); // Core API
+const { findTahunAjaran, createTahunAjaran,findTahunAjaranById, updateTahunAjaran, findTahunAjaranByWhere } = require('../models/sql/tahunAjaranModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -111,6 +111,34 @@ exports.updateTahunAjaran = async (req, res) => {
           res.status(422).json(response);
         }
   } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// get tahun ajaran by custom
+exports.findTahunAjaranByWhere = async (req, res) => {
+  const DataWhere = req.body;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findTahunAjaranByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
     res.status(500).json(response500);
   }
 };

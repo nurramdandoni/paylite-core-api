@@ -1,4 +1,4 @@
-const { findProgram, createProgram,findProgramById, updateProgram } = require('../models/sql/programModel'); // Core API
+const { findProgram, createProgram,findProgramById, updateProgram, findProgramByWhere } = require('../models/sql/programModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -110,6 +110,34 @@ exports.updateProgram = async (req, res) => {
           res.status(422).json(response);
         }
   } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// get program by custom
+exports.findProgramByWhere = async (req, res) => {
+  const DataWhere = req.body;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findProgramByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
     res.status(500).json(response500);
   }
 };

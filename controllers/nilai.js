@@ -1,4 +1,4 @@
-const { findNilai, createNilai,findNilaiById, updateNilai } = require('../models/sql/nilaiModel'); // Core API
+const { findNilai, createNilai,findNilaiById, updateNilai, findNilaiByWhere } = require('../models/sql/nilaiModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -112,3 +112,31 @@ exports.updateNilai = async (req, res) => {
     res.status(500).json(response500);
   }
 };
+// get nilai by custom
+exports.findNilaiByWhere = async (req, res) => {
+    const DataWhere = req.body;
+  console.log(DataWhere)
+    try{
+  
+      const dataWhere = await findNilaiByWhere(DataWhere);
+  
+      if (dataWhere.status == "Sukses") {
+        const response = {
+          status:dataWhere.status,
+          message:dataWhere.message,
+          data:dataWhere.data
+        }
+        res.json(response);
+      } else {
+        const response = {
+          status:dataWhere.status,
+          message:dataWhere.message,
+          data:dataWhere.data
+        }
+        res.status(404).json(response);
+      }
+  
+    }catch(error){
+      res.status(500).json(response500);
+    }
+  };

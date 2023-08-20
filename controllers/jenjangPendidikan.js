@@ -1,4 +1,4 @@
-const { findJenjangPendidikan, createJenjangPendidikan,findJenjangPendidikanById, updateJenjangPendidikan } = require('../models/sql/jenjangPendidikanModel'); // Core API
+const { findJenjangPendidikan, createJenjangPendidikan,findJenjangPendidikanById, updateJenjangPendidikan, findJenjangPendidikanByWhere } = require('../models/sql/jenjangPendidikanModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -110,6 +110,34 @@ exports.updateJenjangPendidikan = async (req, res) => {
           res.status(422).json(response);
         }
   } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+// get data jenjang pendidikan by custom
+exports.findJenjangPendidikanByWhere = async (req, res) => {
+  const DataWhere = req.body;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findJenjangPendidikanByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
     res.status(500).json(response500);
   }
 };
