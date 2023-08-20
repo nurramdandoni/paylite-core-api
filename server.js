@@ -1,9 +1,13 @@
 const express = require("express");
 const jwtLib = require("./config/jwt");
 const rateLimit = require("express-rate-limit");
+const cors = require("cors");
 
 const app = express();
 const port = 4000;
+
+// Menggunakan middleware CORS untuk mengizinkan semua origin
+app.use(cors());
 
 // Menerapkan pembatasan tingkat permintaan secara umum
 const limiter = rateLimit({
