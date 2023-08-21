@@ -1,4 +1,4 @@
-const { findSubscriber, createSubscriber,findSubscriberById, updateSubscriber, findSubscriberByWhere } = require('../models/sql/subscriberModel'); // Core API
+const { findSubscriber, createSubscriber,findSubscriberById, updateSubscriber, findSubscriberByWhere, findAdminLembaga } = require('../models/sql/subscriberModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -120,6 +120,33 @@ console.log(DataWhere)
   try{
 
     const dataWhere = await findSubscriberByWhere(DataWhere);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
+    res.status(500).json(response500);
+  }
+};
+exports.findAdminLembaga = async (req, res) => {
+  const npsn = req.params.npsn;
+console.log(npsn)
+  try{
+
+    const dataWhere = await findAdminLembaga(npsn);
 
     if (dataWhere.status == "Sukses") {
       const response = {

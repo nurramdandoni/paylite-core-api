@@ -188,4 +188,35 @@ async function findSubscriberByWhere(whereData) {
   }
 }
 
-module.exports = { findSubscriber, createSubscriber,findSubscriberById, updateSubscriber, findSubscriberByWhere };
+
+async function findAdminLembaga(npsn){
+  try {
+    const query = `
+      SELECT *
+      FROM subscriber
+      JOIN edu_users ON subscriber.subscriber_id = edu_users.subscriber_id
+      JOIN lembaga_pendidikan ON edu_users.lembaga_pendidikan_id = lembaga_pendidikan.lembaga_pendidikan_id
+      WHERE subscriber.role_produk_id='1' AND lembaga_pendidikan.nomor_legalitas='`+npsn+`'`;
+
+    const dataSubscriber = await sequelize.query(query, {
+      // replacements: whereData,
+      type: sequelize.QueryTypes.SELECT,
+      // model: Subscriber, // Jika ingin menghasilkan instance Sequelize
+    });
+
+    if (dataSubscriber.length > 0) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataSubscriber };
+    } else {
+      return { status: "Error", message: "Data Tidak Ditemukan!", data: [] };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findSubscriber, createSubscriber,findSubscriberById, updateSubscriber, findSubscriberByWhere, findAdminLembaga };

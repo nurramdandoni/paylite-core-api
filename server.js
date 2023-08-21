@@ -223,6 +223,8 @@ app.post("/nilai",nilaiController.createNilai);
 app.put("/nilai/:nilaiId",nilaiController.updateNilai);
 app.post("/nilaiWhere",nilaiController.findNilaiByWhere);
 
+app.get("/cekAdminLembaga/:npsn",subscriberController.findAdminLembaga)
+
 app.post("/login",userController.searchUser);
 app.get(
   "/profile/:profile_id",
