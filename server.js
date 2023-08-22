@@ -23,7 +23,7 @@ const limiter = rateLimit({
 // Middleware untuk parsing body permintaan
 app.use(express.json());
 // Menggunakan middleware pembatasan tingkat permintaan secara umum
-app.use(limiter);
+// app.use(limiter);
 
 // ----------------------------------------------------------------- start Middleware BLock -------------------------------------------------------
 // Middleware untuk memeriksa validitas token pada setiap permintaan yang memerlukan otentikasi
