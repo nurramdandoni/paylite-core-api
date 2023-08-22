@@ -187,4 +187,36 @@ async function findKurikulumByWhere(whereData) {
     }
   }
 
-module.exports = { findKurikulum, createKurikulum,findKurikulumById, updateKurikulum, findKurikulumByWhere };
+  async function findKurukulumJoin(idLembaga){
+    try {
+      const query = `
+        SELECT *
+        FROM kurikulum
+        JOIN tahun_ajaran ON kurikulum.tahun_ajaran_id = tahun_ajaran.tahun_ajaran_id
+        JOIN prodi ON kurikulum.prodi_id = prodi.prodi_id
+        JOIN jurusan ON kurikulum.jurusan_id = jurusan.jurusan_id
+        JOIN mata_ajar ON kurikulum.mata_ajar_id = mata_ajar.mata_ajar_id
+        WHERE kurikulum.lembaga_pendidikan_id='`+idLembaga+`'`;
+  
+      const dataKurikulumJoin = await sequelize.query(query, {
+        // replacements: whereData,
+        type: sequelize.QueryTypes.SELECT,
+        // model: Subscriber, // Jika ingin menghasilkan instance Sequelize
+      });
+  
+      if (dataKurikulumJoin.length > 0) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataKurikulumJoin };
+      } else {
+        return { status: "Error", message: "Data Tidak Ditemukan!", data: [] };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
+
+module.exports = { findKurikulum, createKurikulum,findKurikulumById, updateKurikulum, findKurikulumByWhere, findKurukulumJoin };
