@@ -147,7 +147,7 @@ exports.findKurukulumJoin = async (req, res) => {
 console.log(lembagaPendidikan)
     try{
 
-      const dataKurikulum = await findKurikulumByWhere(lembagaPendidikan);
+      const dataKurikulum = await findKurukulumJoin(lembagaPendidikan);
   
       if (dataKurikulum.status == "Sukses") {
         const response = {
