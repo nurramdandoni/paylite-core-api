@@ -19,9 +19,13 @@ const Kelas = sequelize.define("kelas", {
   },
   nama_kelas: {
     type: Sequelize.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
     type: Sequelize.STRING,
     allowNull: false,
   },
