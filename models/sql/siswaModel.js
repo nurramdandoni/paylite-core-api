@@ -31,7 +31,11 @@ const Siswa = sequelize.define("siswa", {
   },
   jenis_kelamin_id: {
     type: Sequelize.STRING,
-    allowNull: true,
+    allowNull: false,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
   },
   createdAt: {
     type: Sequelize.DATE,

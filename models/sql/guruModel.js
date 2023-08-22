@@ -27,11 +27,15 @@ const Guru = sequelize.define("guru", {
   },
   jenis_kelamin_id: {
     type: Sequelize.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   jabatan_guru_id: {
     type: Sequelize.INTEGER,
-    allowNull: true,
+    allowNull: false,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
   },
   createdAt: {
     type: Sequelize.DATE,
