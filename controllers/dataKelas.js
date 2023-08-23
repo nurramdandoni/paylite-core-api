@@ -1,4 +1,4 @@
-const { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas, findDataKelasByWhere } = require('../models/sql/dataKelasModel'); // Core API
+const { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas, findDataKelasByWhere, findDataKelasJoin } = require('../models/sql/dataKelasModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -132,6 +132,34 @@ console.log(DataWhere)
         status:dataWhere.status,
         message:dataWhere.message,
         data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
+    res.status(500).json(response500);
+  }
+};
+// get data data kelas by join
+exports.findDataKelasJoin = async (req, res) => {
+  const lembagaPendidikan = req.params.lembagaPendidikan;
+console.log(lembagaPendidikan)
+  try{
+
+    const dataKelas = await findDataKelasJoin(lembagaPendidikan);
+
+    if (dataKelas.status == "Sukses") {
+      const response = {
+        status:dataKelas.status,
+        message:dataKelas.message,
+        data:dataKelas.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataKelas.status,
+        message:dataKelas.message,
+        data:dataKelas.data
       }
       res.status(404).json(response);
     }

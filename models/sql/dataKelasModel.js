@@ -175,4 +175,35 @@ async function findDataKelasByWhere(whereData) {
   }
 }
 
-module.exports = { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas, findDataKelasByWhere };
+async function findDataKelasJoin(idLembaga){
+  try {
+    const query = `
+      SELECT *
+      FROM data_kelas
+      JOIN tahun_ajaran ON data_kelas.tahun_ajaran_id = tahun_ajaran.tahun_ajaran_id
+      JOIN kelas ON data_kelas.kelas_id = kelas.kelas_id
+      JOIN siswa ON data_kelas.siswa_id = siswa.siswa_id
+      WHERE data_kelas.lembaga_pendidikan_id='`+idLembaga+`'`;
+
+    const dataKelasJoin = await sequelize.query(query, {
+      // replacements: whereData,
+      type: sequelize.QueryTypes.SELECT,
+      // model: Subscriber, // Jika ingin menghasilkan instance Sequelize
+    });
+
+    if (dataKelasJoin.length > 0) {
+      return { status: "Sukses", message: "Data Ditemukan!", data: dataKelasJoin };
+    } else {
+      return { status: "Error", message: "Data Tidak Ditemukan!", data: [] };
+    }
+  } catch (error) {
+    console.error("error ", error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Proses Data!",
+      data: error.message,
+    };
+  }
+}
+
+module.exports = { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas, findDataKelasByWhere, findDataKelasJoin };
