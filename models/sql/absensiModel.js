@@ -9,6 +9,10 @@ const Absensi = sequelize.define("absensi", {
     autoIncrement: true,
     primaryKey: true,
   },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
   jadwal_pelajaran_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -97,6 +101,7 @@ async function findAbsensi() {
 async function createAbsensi(data) {
     try {
       const dataAbsensi = await Absensi.create({
+        lembaga_pendidikan_id: data.lembaga_pendidikan_id,
         jadwal_pelajaran_id: data.jadwal_pelajaran_id,
         tanggal_absensi: data.tanggal_absensi,
         pertemuan: data.pertemuan,
@@ -124,6 +129,7 @@ async function updateAbsensi(AbsensiId, data) {
   try {
     const dataAbsensi = await Absensi.update(
       {
+        lembaga_pendidikan_id: data.lembaga_pendidikan_id,
         jadwal_pelajaran_id: data.jadwal_pelajaran_id,
         tanggal_absensi: data.tanggal_absensi,
         pertemuan: data.pertemuan,
