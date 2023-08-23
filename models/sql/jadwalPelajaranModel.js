@@ -196,7 +196,7 @@ async function findJadwalPelajaranByWhere(whereData) {
   async function findJadwalPelajaranJoin(idLembaga){
     try {
       const query = `
-      SELECT * FROM jadwal_pelajaran join tahun_ajaran on jadwal_pelajaran.tahun_ajaran_id=tahun_ajaran.tahun_ajaran_id JOIN hari on jadwal_pelajaran.hari_id=hari.hari_id JOIN kurikulum on jadwal_pelajaran.kurikulum_id=kurikulum.kurikulum_id JOIN guru on jadwal_pelajaran.guru_id=guru.guru_id JOIN data_kelas on jadwal_pelajaran.data_kelas_id=data_kelas.data_kelas_id JOIN mata_ajar on kurikulum.mata_ajar_id=mata_ajar.mata_ajar_id WHERE jadwal_pelajaran.lembaga_pendidikan_id='`+idLembaga+`' ORDER by jadwal_pelajaran.hari_id,jadwal_pelajaran.jam_mulai ASC`;
+      SELECT * FROM jadwal_pelajaran join tahun_ajaran on jadwal_pelajaran.tahun_ajaran_id=tahun_ajaran.tahun_ajaran_id JOIN hari on jadwal_pelajaran.hari_id=hari.hari_id JOIN kurikulum on jadwal_pelajaran.kurikulum_id=kurikulum.kurikulum_id JOIN guru on jadwal_pelajaran.guru_id=guru.guru_id JOIN data_kelas on jadwal_pelajaran.data_kelas_id=data_kelas.data_kelas_id JOIN mata_ajar on kurikulum.mata_ajar_id=mata_ajar.mata_ajar_id JOIN kelas ON kurikulum.kelas_id = kelas.kelas_id JOIN kelas ON data_kelas.kelas_id=kelas.kelas_id WHERE jadwal_pelajaran.lembaga_pendidikan_id='`+idLembaga+`' ORDER by jadwal_pelajaran.hari_id,jadwal_pelajaran.jam_mulai ASC`;
   
       const dataJadwalPelajaranJoin = await sequelize.query(query, {
         // replacements: whereData,
