@@ -146,7 +146,7 @@ exports.findJadwalPelajaranJoin = async (req, res) => {
   console.log(lembagaPendidikan)
     try{
   
-      const dataJadwalPelajaran = await findJadwalPelajaranJoin(DataJadwalPelajaran);
+      const dataJadwalPelajaran = await findJadwalPelajaranJoin(lembagaPendidikan);
   
       if (dataJadwalPelajaran.status == "Sukses") {
         const response = {
