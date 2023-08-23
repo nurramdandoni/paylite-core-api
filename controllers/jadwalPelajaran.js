@@ -1,4 +1,4 @@
-const { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere } = require('../models/sql/jadwalPelajaranModel'); // Core API
+const { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere, findJadwalPelajaranJoin } = require('../models/sql/jadwalPelajaranModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -132,6 +132,34 @@ exports.findJadwalPelajaranByWhere = async (req, res) => {
           status:dataWhere.status,
           message:dataWhere.message,
           data:dataWhere.data
+        }
+        res.status(404).json(response);
+      }
+  
+    }catch(error){
+      res.status(500).json(response500);
+    }
+  };
+// get data jadwal pelajaran by join
+exports.findJadwalPelajaranJoin = async (req, res) => {
+  const lembagaPendidikan = req.params.lembagaPendidikan;
+  console.log(lembagaPendidikan)
+    try{
+  
+      const dataJadwalPelajaran = await findJadwalPelajaranJoin(DataJadwalPelajaran);
+  
+      if (dataJadwalPelajaran.status == "Sukses") {
+        const response = {
+          status:dataJadwalPelajaran.status,
+          message:dataJadwalPelajaran.message,
+          data:dataJadwalPelajaran.data
+        }
+        res.json(response);
+      } else {
+        const response = {
+          status:dataJadwalPelajaran.status,
+          message:dataJadwalPelajaran.message,
+          data:dataJadwalPelajaran.data
         }
         res.status(404).json(response);
       }
