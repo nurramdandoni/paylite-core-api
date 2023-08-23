@@ -194,7 +194,7 @@ app.get("/dataKelas/:dataKelasId",dataKelasController.findDataKelasById);
 app.post("/dataKelas",dataKelasController.createDataKelas);
 app.put("/dataKelas/:dataKelasId",dataKelasController.updateDataKelas);
 app.post("/dataKelasWhere",dataKelasController.findDataKelasByWhere);
-app.get("/dataKelasWhere/:lembagaPendidikan",dataKelasController.findDataKelasJoin);
+app.get("/dataKelasWhereJoin/:lembagaPendidikan",dataKelasController.findDataKelasJoin);
 
 app.get("/krs",krsController.searchKrs);
 app.get("/krs/:krsId",krsController.findKrsById);
