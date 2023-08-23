@@ -213,6 +213,7 @@ app.post("/jadwalPelajaran",jadwalPelajaranController.createJadwalPelajaran);
 app.put("/jadwalPelajaran/:jadwalPelajaranId",jadwalPelajaranController.updateJadwalPelajaran);
 app.post("/jadwalPelajaranWhere",jadwalPelajaranController.findJadwalPelajaranByWhere);
 app.get("/jadwalPelajaranWhereJoin/:lembagaPendidikan",jadwalPelajaranController.findJadwalPelajaranJoin);
+app.post("/jadwalPelajaranWhereJoinByKrsNisn",jadwalPelajaranController.findJadwalPelajaranJoinByKrsNisn);
 
 app.get("/absensi",absensiController.searchAbsensi);
 app.get("/absensi/:absensiId",absensiController.findAbsensiById);

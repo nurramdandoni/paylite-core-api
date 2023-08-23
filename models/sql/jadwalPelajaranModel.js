@@ -218,5 +218,30 @@ async function findJadwalPelajaranByWhere(whereData) {
       };
     }
   }
+  async function findJadwalPelajaranJoinByKrsNisn(idLembaga,hari,nisn,waktu){
+    try {
+      const query = `
+      SELECT * FROM krs JOIN jadwal_pelajaran ON krs.kurikulum_id=jadwal_pelajaran.kurikulum_id left JOIN kelas on jadwal_pelajaran.data_kelas_id=kelas.kelas_id WHERE jadwal_pelajaran.hari_id ='`+hari+`' AND krs.siswa_id=(SELECT siswa_id FROM siswa WHERE siswa.nisn='`+nisn+`') and krs.kelas_id=kelas.kelas_id AND jadwal_pelajaran.jam_mulai >= TIME('`+waktu+`') AND TIME('`+waktu+`') <= jadwal_pelajaran.jam_selesai and jadwal_pelajaran.lembaga_pendidikan_id='`+idLembaga+`' and krs.tahun_ajaran_id=jadwal_pelajaran.tahun_ajaran_id and jadwal_pelajaran.tahun_ajaran_id=(SELECT tahun_ajaran_id FROM tahun_ajaran WHERE tahun_ajaran.status='aktif' AND tahun_ajaran.lembaga_pendidikan_id ='`+idLembaga+`')`;
+  
+      const dataJadwalPelajaranJoinByKrsNisn = await sequelize.query(query, {
+        // replacements: whereData,
+        type: sequelize.QueryTypes.SELECT,
+        // model: Subscriber, // Jika ingin menghasilkan instance Sequelize
+      });
+  
+      if (dataJadwalPelajaranJoinByKrsNisn.length > 0) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataJadwalPelajaranJoinByKrsNisn };
+      } else {
+        return { status: "Error", message: "Data Tidak Ditemukan!", data: [] };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
 
-module.exports = { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere, findJadwalPelajaranJoin };
+module.exports = { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere, findJadwalPelajaranJoin, findJadwalPelajaranJoinByKrsNisn };
