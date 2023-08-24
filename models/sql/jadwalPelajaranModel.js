@@ -229,10 +229,10 @@ async function findJadwalPelajaranByWhere(whereData) {
         // model: Subscriber, // Jika ingin menghasilkan instance Sequelize
       });
   
-      if (dataJadwalPelajaranJoinByKrsNisn.length > 0) {
+      if (dataJadwalPelajaranJoinByKrsNisn != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataJadwalPelajaranJoinByKrsNisn };
       } else {
-        return { status: "Error", message: "Data Tidak Ditemukan!", data: [] };
+        return { status: "Error", message: "Data Tidak Ditemukan!", data: dataJadwalPelajaranJoinByKrsNisn };
       }
     } catch (error) {
       console.error("error ", error);

@@ -204,10 +204,10 @@ async function findKurikulumByWhere(whereData) {
         // model: Subscriber, // Jika ingin menghasilkan instance Sequelize
       });
   
-      if (dataKurikulumJoin.length > 0) {
+      if (dataKurikulumJoin != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataKurikulumJoin };
       } else {
-        return { status: "Error", message: "Data Tidak Ditemukan!", data: [] };
+        return { status: "Error", message: "Data Tidak Ditemukan!", data: dataKurikulumJoin };
       }
     } catch (error) {
       console.error("error ", error);
