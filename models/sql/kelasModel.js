@@ -99,7 +99,8 @@ async function createKelas(data) {
         lembaga_pendidikan_id: data.lembaga_pendidikan_id,
         tahun_ajaran_id: data.tahun_ajaran_id,
         nama_kelas: data.nama_kelas,
-        description: data.description
+        description: data.description,
+        status: data.status
       });
   
       return {
@@ -125,7 +126,8 @@ async function updateKelas(KelasId, data) {
         lembaga_pendidikan_id: data.lembaga_pendidikan_id,
         tahun_ajaran_id: data.tahun_ajaran_id,
         nama_kelas: data.nama_kelas,
-        description: data.description
+        description: data.description,
+        status: data.status
       },
       {
         where: { kelas_id: KelasId },
