@@ -13,6 +13,10 @@ const Jurusan = sequelize.define("jurusan", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  prodi_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
   nomor_legalitas: {
     type: Sequelize.STRING,
     allowNull: true,
