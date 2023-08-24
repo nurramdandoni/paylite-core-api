@@ -109,7 +109,8 @@ async function createSiswa(data) {
         email: data.email,
         email_orang_tua: data.email_orang_tua,
         nama_siswa: data.nama_siswa,
-        jenis_kelamin_id: data.jenis_kelamin_id
+        jenis_kelamin_id: data.jenis_kelamin_id,
+        status: data.status
       });
   
       return {
@@ -137,7 +138,8 @@ async function updateSiswa(SiswaId, data) {
         email: data.email,
         email_orang_tua: data.email_orang_tua,
         nama_siswa: data.nama_siswa,
-        jenis_kelamin_id: data.jenis_kelamin_id
+        jenis_kelamin_id: data.jenis_kelamin_id,
+        status: data.status
       },
       {
         where: { siswa_id: SiswaId },

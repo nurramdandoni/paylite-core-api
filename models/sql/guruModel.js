@@ -109,7 +109,8 @@ async function createGuru(data) {
         email: data.email,
         nama_guru: data.nama_guru,
         jenis_kelamin_id: data.jenis_kelamin_id,
-        jabatan_guru_id: data.jabatan_guru_id
+        jabatan_guru_id: data.jabatan_guru_id,
+        status: data.status
       });
   
       return {
@@ -137,7 +138,8 @@ async function updateGuru(GuruId, data) {
         email: data.email,
         nama_guru: data.nama_guru,
         jenis_kelamin_id: data.jenis_kelamin_id,
-        jabatan_guru_id: data.jabatan_guru_id
+        jabatan_guru_id: data.jabatan_guru_id,
+        status: data.status
       },
       {
         where: { guru_id: GuruId },
