@@ -220,6 +220,7 @@ app.get("/absensi/:absensiId",absensiController.findAbsensiById);
 app.post("/absensi",absensiController.createAbsensi);
 app.put("/absensi/:absensiId",absensiController.updateAbsensi);
 app.post("/absensiWhere",absensiController.findAbsensiByWhere);
+app.post("/absensiWhereTanggal",absensiController.findAbsensiByWhereTanggal);
 
 app.get("/nilai",nilaiController.searchNilai);
 app.get("/nilai/:nilaiId",nilaiController.findNilaiById);
