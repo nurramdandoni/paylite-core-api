@@ -52,6 +52,52 @@ const Kurikulum = sequelize.define("kurikulum", {
     tableName: "kurikulum",
   });
 
+  // Definisikan model kelas
+const Kelas = sequelize.define("kelas", {
+  kelas_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_kelas: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "kelas",
+  });
+
+  // Definisikan asosiasi antara Kurikulum dan Kelas
+Kurikulum.belongsTo(Kelas, { foreignKey: "kelas_id", as: "kelas" });
+
 // Fungsi untuk menampilkan kurikulum by id
 async function findKurikulumById(kurikulum_id) {
     try {
@@ -167,6 +213,12 @@ async function findKurikulumByWhere(whereData) {
     try {
       const kurikulum = await Kurikulum.findAll({
         where: whereData,
+        include: [
+          {
+            model: Kelas,
+            as: 'kelas', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
       });
       if (kurikulum != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: kurikulum };
