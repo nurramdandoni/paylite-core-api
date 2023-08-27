@@ -103,6 +103,12 @@ async function findKurikulumById(kurikulum_id) {
       const kurikulum = await Kurikulum.findOne({
         where: {
           kurikulum_id: kurikulum_id,
+          include: [
+            {
+              model: MataAjar,
+              as: 'mata_ajar', // Alias untuk asosiasi dengan model Kelas
+            },
+          ],
         },
       });
       if (kurikulum != null) {
@@ -126,7 +132,14 @@ async function findKurikulumById(kurikulum_id) {
 // Fungsi untuk menampilkan kurikulum all
 async function findKurikulum() {
     try {
-      const kurikulum = await Kurikulum.findAll();
+      const kurikulum = await Kurikulum.findAll({
+        include: [
+          {
+            model: MataAjar,
+            as: 'mata_ajar', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
+      });
       if (kurikulum != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: kurikulum };
       } else {
