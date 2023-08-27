@@ -95,7 +95,7 @@ const MataAjar = sequelize.define("mata_ajar", {
     tableName: "mata_ajar",
   });
   // Definisikan asosiasi antara Kurikulum dan Kelas
-Kurikulum.belongsTo(MataAjar, { foreignKey: "mata_ajar_id", as: "mata_ajar" });
+Kurikulum.belongsTo(MataAjar, { foreignKey: "mata_ajar_id", as: "mata_mata_ajar" });
 
 // Fungsi untuk menampilkan kurikulum by id
 async function findKurikulumById(kurikulum_id) {
@@ -215,7 +215,7 @@ async function findKurikulumByWhere(whereData) {
         include: [
           {
             model: MataAjar,
-            as: 'kelas', // Alias untuk asosiasi dengan model Kelas
+            as: 'mata_mata_ajar', // Alias untuk asosiasi dengan model Kelas
           },
         ],
       });
