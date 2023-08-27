@@ -152,9 +152,11 @@ async function updateKelas(KelasId, data) {
 // Fungsi untuk menampilkan kelas by where
 async function findKelasByWhere(whereData) {
   // console.log(whereData)
+  const orderBy = [['nama_siswa', 'ASC']];
   try {
     const dataKelas = await Kelas.findAll({
       where: whereData,
+      order: orderBy
     });
     if (dataKelas != null) {
       return { status: "Sukses", message: "Data Ditemukan!", data: dataKelas };
