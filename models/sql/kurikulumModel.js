@@ -103,13 +103,13 @@ async function findKurikulumById(kurikulum_id) {
       const kurikulum = await Kurikulum.findOne({
         where: {
           kurikulum_id: kurikulum_id,
-          include: [
-            {
-              model: MataAjar,
-              as: 'mata_ajar', // Alias untuk asosiasi dengan model Kelas
-            },
-          ],
         },
+        include: [
+          {
+            model: MataAjar,
+            as: 'mata_ajar', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
       });
       if (kurikulum != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: kurikulum };
