@@ -254,7 +254,7 @@ async function findKurikulumByWhere(whereData) {
   async function findKurukulumJoin(idLembaga){
     try {
       const query = `
-        SELECT *
+        SELECT *,kurikulum.status as statusKur
         FROM kurikulum
         JOIN tahun_ajaran ON kurikulum.tahun_ajaran_id = tahun_ajaran.tahun_ajaran_id
         JOIN prodi ON kurikulum.prodi_id = prodi.prodi_id
