@@ -89,11 +89,16 @@ Kelas.belongsTo(TahunAjaran, { foreignKey: "tahun_ajaran_id", as: "tahun_ajaran"
 
 // Fungsi untuk menampilkan kelas by id
 async function findKelasById(kelas_id) {
+  const orderBy = [
+    ['tahun_ajaran','nama_tahun_ajaran', 'ASC'],
+    ['nama_kelas', 'ASC']
+  ];
     try {
       const kelas = await Kelas.findOne({
         where: {
           kelas_id: kelas_id,
         },
+        order:orderBy,
         include: [
           {
             model: TahunAjaran,
@@ -121,8 +126,13 @@ async function findKelasById(kelas_id) {
   }
 // Fungsi untuk menampilkan kelas all
 async function findKelas() {
+  const orderBy = [
+    ['tahun_ajaran','nama_tahun_ajaran', 'ASC'],
+    ['nama_kelas', 'ASC']
+  ];
     try {
       const kelas = await Kelas.findAll({
+        order:orderBy,
         include: [
           {
             model: TahunAjaran,
@@ -208,7 +218,10 @@ async function updateKelas(KelasId, data) {
 // Fungsi untuk menampilkan kelas by where
 async function findKelasByWhere(whereData) {
   // console.log(whereData)
-  const orderBy = [['nama_kelas', 'ASC']];
+  const orderBy = [
+    ['tahun_ajaran','nama_tahun_ajaran', 'ASC'],
+    ['nama_kelas', 'ASC']
+  ];
   try {
     const dataKelas = await Kelas.findAll({
       where: whereData,
