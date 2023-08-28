@@ -54,11 +54,16 @@ const Guru = sequelize.define("guru", {
 
 // Fungsi untuk menampilkan guru by id
 async function findGuruById(guru_id) {
+  const orderBy = [
+    ['jabatan_guru_id', 'ASC'],
+    ['nama_guru', 'ASC']
+  ];
     try {
       const guru = await Guru.findOne({
         where: {
           guru_id: guru_id,
         },
+        order:orderBy
       });
       if (guru != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: guru };
@@ -80,8 +85,14 @@ async function findGuruById(guru_id) {
   }
 // Fungsi untuk menampilkan guru all
 async function findGuru() {
+  const orderBy = [
+    ['jabatan_guru_id', 'ASC'],
+    ['nama_guru', 'ASC']
+  ];
     try {
-      const guru = await Guru.findAll();
+      const guru = await Guru.findAll({
+        order:orderBy
+      });
       if (guru != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: guru };
       } else {
@@ -164,9 +175,14 @@ async function updateGuru(GuruId, data) {
 // Fungsi untuk menampilkan guru by where
 async function findGuruByWhere(whereData) {
   // console.log(whereData)
+  const orderBy = [
+    ['jabatan_guru_id', 'ASC'],
+    ['nama_guru', 'ASC']
+  ];
   try {
     const dataGuru = await Guru.findAll({
       where: whereData,
+      order:orderBy
     });
     if (dataGuru != null) {
       return { status: "Sukses", message: "Data Ditemukan!", data: dataGuru };
