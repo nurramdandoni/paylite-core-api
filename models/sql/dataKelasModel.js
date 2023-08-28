@@ -99,8 +99,144 @@ const Siswa = sequelize.define("siswa", {
     tableName: "siswa",
   });
 
+  // Definisikan model tahun ajaran
+const TahunAjaran = sequelize.define("tahun_ajaran", {
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_tahun_ajaran: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "tahun_ajaran",
+  });
+
+  // Definisikan model kelas
+const Kelas = sequelize.define("kelas", {
+  kelas_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_kelas: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "kelas",
+  });
+
+  // Definisikan model guru
+const Guru = sequelize.define("guru", {
+  guru_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nip: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  nama_guru: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  jenis_kelamin_id: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  jabatan_guru_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "guru",
+  });
+
       // Definisikan asosiasi antara Kurikulum dan Kelas
 DataKelas.belongsTo(Siswa, { foreignKey: "siswa_id", as: "siswa" });
+DataKelas.belongsTo(TahunAjaran, { foreignKey: "tahun_ajaran_id", as: "tahun_ajaran" });
+DataKelas.belongsTo(Kelas, { foreignKey: "kelas_id", as: "kelas" });
+DataKelas.belongsTo(Guru, { foreignKey: "wali_kelas_id", as: "guru" });
 
 // Fungsi untuk menampilkan data kelas by id
 async function findDataKelasById(data_kelas_id) {
@@ -113,6 +249,18 @@ async function findDataKelasById(data_kelas_id) {
           {
             model: Siswa,
             as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kelas,
+            as: 'kelas', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Guru,
+            as: 'guru', // Alias untuk asosiasi dengan model Kelas
           },
         ],
       });
@@ -142,6 +290,18 @@ async function findDataKelas() {
           {
             model: Siswa,
             as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kelas,
+            as: 'kelas', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Guru,
+            as: 'guru', // Alias untuk asosiasi dengan model Kelas
           },
         ],
       });
@@ -230,6 +390,18 @@ async function findDataKelasByWhere(whereData) {
         {
           model: Siswa,
           as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+        },
+        {
+          model: TahunAjaran,
+          as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+        },
+        {
+          model: Kelas,
+          as: 'kelas', // Alias untuk asosiasi dengan model Kelas
+        },
+        {
+          model: Guru,
+          as: 'guru', // Alias untuk asosiasi dengan model Kelas
         },
       ],
     });
