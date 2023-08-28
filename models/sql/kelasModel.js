@@ -44,6 +44,49 @@ const Kelas = sequelize.define("kelas", {
     tableName: "kelas",
   });
 
+  // Definisikan model tahun ajaran
+const TahunAjaran = sequelize.define("tahun_ajaran", {
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_tahun_ajaran: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "tahun_ajaran",
+  });
+
+    // Definisikan asosiasi antara Kurikulum dan Kelas
+Kelas.belongsTo(TahunAjaran, { foreignKey: "tahun_ajaran_id", as: "tahun_ajaran" });
+
+
 // Fungsi untuk menampilkan kelas by id
 async function findKelasById(kelas_id) {
     try {
@@ -51,6 +94,12 @@ async function findKelasById(kelas_id) {
         where: {
           kelas_id: kelas_id,
         },
+        include: [
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
       });
       if (kelas != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: kelas };
@@ -73,7 +122,14 @@ async function findKelasById(kelas_id) {
 // Fungsi untuk menampilkan kelas all
 async function findKelas() {
     try {
-      const kelas = await Kelas.findAll();
+      const kelas = await Kelas.findAll({
+        include: [
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
+      });
       if (kelas != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: kelas };
       } else {
@@ -156,7 +212,13 @@ async function findKelasByWhere(whereData) {
   try {
     const dataKelas = await Kelas.findAll({
       where: whereData,
-      order: orderBy
+      order: orderBy,
+      include: [
+        {
+          model: TahunAjaran,
+          as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+        },
+      ],
     });
     if (dataKelas != null) {
       return { status: "Sukses", message: "Data Ditemukan!", data: dataKelas };
