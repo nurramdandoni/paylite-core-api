@@ -17,6 +17,10 @@ const DataKelas = sequelize.define("data_kelas", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  wali_kelas_id: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  },
   kelas_id: {
     type: Sequelize.INTEGER,
     allowNull: true,
