@@ -427,7 +427,7 @@ async function findDataKelasByWhere(whereData) {
 async function findDataKelasJoin(idLembaga){
   try {
     const query = `
-      SELECT *
+      SELECT *,data_kelas.tahun_ajaran_id as dkT,data_kelas.kelas_id as dkK
       FROM data_kelas
       JOIN tahun_ajaran ON data_kelas.tahun_ajaran_id = tahun_ajaran.tahun_ajaran_id
       JOIN kelas ON data_kelas.kelas_id = kelas.kelas_id
