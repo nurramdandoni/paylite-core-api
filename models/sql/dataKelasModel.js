@@ -44,6 +44,60 @@ const DataKelas = sequelize.define("data_kelas", {
     tableName: "data_kelas",
   });
 
+  // Definisikan model siswa
+const Siswa = sequelize.define("siswa", {
+  siswa_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nisn: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  email_orang_tua: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  nama_siswa: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  jenis_kelamin_id: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "siswa",
+  });
+
+      // Definisikan asosiasi antara Kurikulum dan Kelas
+DataKelas.belongsTo(Siswa, { foreignKey: "siswa_id", as: "siswa" });
+
 // Fungsi untuk menampilkan data kelas by id
 async function findDataKelasById(data_kelas_id) {
     try {
@@ -51,6 +105,12 @@ async function findDataKelasById(data_kelas_id) {
         where: {
           data_kelas_id: data_kelas_id,
         },
+        include: [
+          {
+            model: Siswa,
+            as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
       });
       if (dataKelas != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataKelas };
@@ -73,7 +133,14 @@ async function findDataKelasById(data_kelas_id) {
 // Fungsi untuk menampilkan data kelas all
 async function findDataKelas() {
     try {
-      const dataKelas = await DataKelas.findAll();
+      const dataKelas = await DataKelas.findAll({
+        include: [
+          {
+            model: Siswa,
+            as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
+      });
       if (dataKelas != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataKelas };
       } else {
@@ -155,6 +222,12 @@ async function findDataKelasByWhere(whereData) {
   try {
     const dataKelas = await DataKelas.findAll({
       where: whereData,
+      include: [
+        {
+          model: Siswa,
+          as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+        },
+      ],
     });
     if (dataKelas != null) {
       return { status: "Sukses", message: "Data Ditemukan!", data: dataKelas };
@@ -183,7 +256,7 @@ async function findDataKelasJoin(idLembaga){
       JOIN tahun_ajaran ON data_kelas.tahun_ajaran_id = tahun_ajaran.tahun_ajaran_id
       JOIN kelas ON data_kelas.kelas_id = kelas.kelas_id
       JOIN siswa ON data_kelas.siswa_id = siswa.siswa_id
-      WHERE data_kelas.lembaga_pendidikan_id='`+idLembaga+`'`;
+      WHERE data_kelas.lembaga_pendidikan_id='`+idLembaga+`' group by data_kelas.tahun_ajaran_id,data_kelas.kelas_id order by data_kelas.tahun_ajaran_id,kelas.nama_kelas`;
 
     const dataKelasJoin = await sequelize.query(query, {
       // replacements: whereData,
