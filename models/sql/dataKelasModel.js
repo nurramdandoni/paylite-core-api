@@ -434,7 +434,7 @@ async function findDataKelasJoin(idLembaga){
       JOIN tahun_ajaran ON data_kelas.tahun_ajaran_id = tahun_ajaran.tahun_ajaran_id
       JOIN kelas ON data_kelas.kelas_id = kelas.kelas_id
       JOIN siswa ON data_kelas.siswa_id = siswa.siswa_id
-      WHERE data_kelas.lembaga_pendidikan_id='`+idLembaga+`' group by data_kelas.tahun_ajaran_id,data_kelas.kelas_id order by data_kelas.tahun_ajaran_id,kelas.nama_kelas`;
+      WHERE data_kelas.lembaga_pendidikan_id='`+idLembaga+`' AND tahun_ajaran.status='aktif' group by data_kelas.tahun_ajaran_id,data_kelas.kelas_id order by data_kelas.tahun_ajaran_id,kelas.nama_kelas`;
 
     const dataKelasJoin = await sequelize.query(query, {
       // replacements: whereData,
