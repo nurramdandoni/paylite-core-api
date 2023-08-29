@@ -243,5 +243,30 @@ async function findJadwalPelajaranByWhere(whereData) {
       };
     }
   }
+  async function findJadwalPelajaranBentrok(idLembaga,hari,id_guru,waktu_mulai,waktu_selesai){
+    try {
+      const query = `
+      SELECT * FROM jadwal_pelajaran a WHERE a.lembaga_pendidikan_id=`+idLembaga+` AND a.guru_id = `+id_guru+` AND a.hari_id = `+hari+` AND (a.jam_mulai >= "`+waktu_mulai+`" AND a.jam_mulai <= "`+waktu_mulai+`") OR (a.jam_selesai >= "`+waktu_selesai+`" AND a.jam_selesai <= "`+waktu_selesai+`"); `;
+  
+      const dataJadwalPelajaranBentrok = await sequelize.query(query, {
+        // replacements: whereData,
+        type: sequelize.QueryTypes.SELECT,
+        // model: Subscriber, // Jika ingin menghasilkan instance Sequelize
+      });
+  
+      if (dataJadwalPelajaranBentrok != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataJadwalPelajaranBentrok };
+      } else {
+        return { status: "Error", message: "Data Tidak Ditemukan!", data: dataJadwalPelajaranBentrok };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
 
-module.exports = { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere, findJadwalPelajaranJoin, findJadwalPelajaranJoinByKrsNisn };
+module.exports = { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere, findJadwalPelajaranJoin, findJadwalPelajaranJoinByKrsNisn, findJadwalPelajaranBentrok };
