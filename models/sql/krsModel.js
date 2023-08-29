@@ -289,6 +289,8 @@ Krs.belongsTo(Siswa, { foreignKey: "siswa_id", as: "siswa" });
 Krs.belongsTo(TahunAjaran, { foreignKey: "tahun_ajaran_id", as: "tahun_ajaran" });
 Krs.belongsTo(Kelas, { foreignKey: "kelas_id", as: "kelas" });
 Krs.belongsTo(Kurikulum, { foreignKey: "kurikulum_id", as: "kurikulum" });
+Kurikulum.belongsTo(MataAjar, { foreignKey: "mata_ajar_id", as: "mata_ajar" });
+
 
 // Fungsi untuk menampilkan krs by id
 async function findKrsById(krs_id) {
