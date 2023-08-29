@@ -240,11 +240,55 @@ const Kurikulum = sequelize.define("kurikulum", {
     tableName: "kurikulum",
   });
 
+  // Definisikan model mata ajar
+const MataAjar = sequelize.define("mata_ajar", {
+  mata_ajar_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_mata_ajar: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  bobot_sks: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "mata_ajar",
+  });
+
       // Definisikan asosiasi antara Kurikulum dan Kelas
 Krs.belongsTo(Siswa, { foreignKey: "siswa_id", as: "siswa" });
 Krs.belongsTo(TahunAjaran, { foreignKey: "tahun_ajaran_id", as: "tahun_ajaran" });
 Krs.belongsTo(Kelas, { foreignKey: "kelas_id", as: "kelas" });
 Krs.belongsTo(Kurikulum, { foreignKey: "kurikulum_id", as: "kurikulum" });
+Kurikulum.belongsTo(MataAjar, { foreignKey: "mata_ajar_id", as: "mata_ajar" });
 
 // Fungsi untuk menampilkan krs by id
 async function findKrsById(krs_id) {
@@ -269,6 +313,10 @@ async function findKrsById(krs_id) {
           {
             model: Kurikulum,
             as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: MataAjar,
+            as: 'mata_ajar', // Alias untuk asosiasi dengan model Kelas
           },
         ],
       });
@@ -310,6 +358,10 @@ async function findKrs() {
           {
             model: Kurikulum,
             as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: MataAjar,
+            as: 'mata_ajar', // Alias untuk asosiasi dengan model Kelas
           },
         ],
       });
@@ -417,6 +469,10 @@ async function findKrsByWhere(whereData) {
             model: Kurikulum,
             as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
           },
+          {
+            model: MataAjar,
+            as: 'mata_ajar', // Alias untuk asosiasi dengan model Kelas
+          },
         ],
       });
       if (dataKrs != null) {
@@ -464,6 +520,10 @@ async function findKrsByWhereGroup(whereData,groupColumn) {
           {
             model: Kurikulum,
             as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: MataAjar,
+            as: 'mata_ajar', // Alias untuk asosiasi dengan model Kelas
           },
         ],
       });
