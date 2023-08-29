@@ -253,6 +253,24 @@ async function findKrsById(krs_id) {
         where: {
           krs_id: krs_id,
         },
+        include: [
+          {
+            model: Siswa,
+            as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kelas,
+            as: 'kelas', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kurikulum,
+            as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
       });
       if (dataKrs != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataKrs };
@@ -275,7 +293,26 @@ async function findKrsById(krs_id) {
 // Fungsi untuk menampilkan krs all
 async function findKrs() {
     try {
-      const dataKrs = await Krs.findAll();
+      const dataKrs = await Krs.findAll({
+        include: [
+          {
+            model: Siswa,
+            as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kelas,
+            as: 'kelas', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kurikulum,
+            as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
+      });
       if (dataKrs != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataKrs };
       } else {
@@ -363,6 +400,24 @@ async function findKrsByWhere(whereData) {
     try {
       const dataKrs = await Krs.findAll({
         where: whereData,
+        include: [
+          {
+            model: Siswa,
+            as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kelas,
+            as: 'kelas', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kurikulum,
+            as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
       });
       if (dataKrs != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataKrs };
@@ -393,6 +448,24 @@ async function findKrsByWhereGroup(whereData,groupColumn) {
         ],
         group: [groupColumn],
         where: whereData,
+        include: [
+          {
+            model: Siswa,
+            as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kelas,
+            as: 'kelas', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kurikulum,
+            as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
       });
       if (dataKrs != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataKrs };
