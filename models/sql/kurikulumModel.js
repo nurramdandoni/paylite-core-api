@@ -260,7 +260,7 @@ async function findKurikulumByWhere(whereData) {
         JOIN prodi ON kurikulum.prodi_id = prodi.prodi_id
         JOIN jurusan ON kurikulum.jurusan_id = jurusan.jurusan_id
         JOIN mata_ajar ON kurikulum.mata_ajar_id = mata_ajar.mata_ajar_id
-        WHERE kurikulum.lembaga_pendidikan_id='`+idLembaga+`' ORDER BY tahun_ajaran.nama_tahun_ajaran,prodi.nama_prodi,jurusan.nama_jurusan,mata_ajar.nama_mata_ajar ASC`;
+        WHERE kurikulum.lembaga_pendidikan_id='`+idLembaga+`' and tahun_ajaran.status='aktif' ORDER BY tahun_ajaran.nama_tahun_ajaran,prodi.nama_prodi,jurusan.nama_jurusan,mata_ajar.nama_mata_ajar ASC`;
   
       const dataKurikulumJoin = await sequelize.query(query, {
         // replacements: whereData,
