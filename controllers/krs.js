@@ -1,4 +1,4 @@
-const { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere, findDataKrsJoin } = require('../models/sql/krsModel'); // Core API
+const { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere, findDataKrsJoin, findKrsByWhereGroup } = require('../models/sql/krsModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -119,6 +119,36 @@ exports.findKrsByWhere = async (req, res) => {
     try{
   
       const dataWhere = await findKrsByWhere(DataWhere);
+  
+      if (dataWhere.status == "Sukses") {
+        const response = {
+          status:dataWhere.status,
+          message:dataWhere.message,
+          data:dataWhere.data
+        }
+        res.json(response);
+      } else {
+        const response = {
+          status:dataWhere.status,
+          message:dataWhere.message,
+          data:dataWhere.data
+        }
+        res.status(404).json(response);
+      }
+  
+    }catch(error){
+      res.status(500).json(response500);
+    }
+  };
+// get data krs by custom
+exports.findKrsByWhereGroup = async (req, res) => {
+    const DataWhere = req.body;
+    const where = DataWhere.where;
+    const column = DataWhere.column;
+  console.log(DataWhere)
+    try{
+  
+      const dataWhere = await findKrsByWhereGroup(where,column);
   
       if (dataWhere.status == "Sukses") {
         const response = {

@@ -382,6 +382,36 @@ async function findKrsByWhere(whereData) {
       };
     }
   }
+// Fungsi untuk menampilkan krs by where
+async function findKrsByWhereGroup(whereData,groupColumn) {
+    // console.log(whereData)
+    try {
+      const dataKrs = await Krs.findAll({
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col(groupColumn)), 'count'],
+          groupColumn,
+        ],
+        group: [groupColumn],
+        where: whereData,
+      });
+      if (dataKrs != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataKrs };
+      } else {
+        return {
+          status: "Error",
+          message: "Data Tidak Ditemukan!",
+          data: dataKrs,
+        };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
 
   async function findDataKrsJoin(idLembaga){
     try {
@@ -409,4 +439,4 @@ async function findKrsByWhere(whereData) {
     }
   }
 
-module.exports = { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere, findDataKrsJoin };
+module.exports = { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere, findDataKrsJoin, findKrsByWhereGroup };

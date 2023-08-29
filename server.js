@@ -201,6 +201,7 @@ app.get("/krs/:krsId",krsController.findKrsById);
 app.post("/krs",krsController.createKrs);
 app.put("/krs/:krsId",krsController.updateKrs);
 app.post("/krsWhere",krsController.findKrsByWhere);
+app.post("/krsWhereGroup",krsController.findKrsByWhereGroup);
 app.get("/KrsWhereJoin/:lembagaPendidikan",krsController.findDataKrsJoin);
 
 app.get("/hari",hariController.searchHari);
