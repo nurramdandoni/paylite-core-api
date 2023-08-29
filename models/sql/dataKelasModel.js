@@ -331,6 +331,7 @@ async function createDataKelas(data) {
         tahun_ajaran_id: data.tahun_ajaran_id,
         kelas_id: data.kelas_id,
         siswa_id: data.siswa_id,
+        wali_kelas_id: data.wali_kelas_id,
         description: data.description
       });
   
@@ -358,6 +359,7 @@ async function updateDataKelas(DataKelasId, data) {
         tahun_ajaran_id: data.tahun_ajaran_id,
         kelas_id: data.kelas_id,
         siswa_id: data.siswa_id,
+        wali_kelas_id: data.wali_kelas_id,
         description: data.description
       },
       {
