@@ -560,7 +560,7 @@ async function findKrsByWhereGroup(whereData,groupColumn) {
   async function findDataKrsJoin(idLembaga){
     try {
       const query = `
-      SELECT *,a.tahun_ajaran_id as dTh,a.kelas_id as dKk FROM krs a JOIN tahun_ajaran b on a.tahun_ajaran_id=b.tahun_ajaran_id JOIN kelas c on a.kelas_id=c.kelas_id JOIN siswa d on a.siswa_id=d.siswa_id JOIN kurikulum e on a.kurikulum_id=e.kurikulum_id WHERE a.lembaga_pendidikan_id=`+idLembaga+` GROUP by a.tahun_ajaran_id,a.kelas_id ORDER by a.tahun_ajaran_id,c.nama_kelas`;
+      SELECT *,a.tahun_ajaran_id as dTh,a.kelas_id as dKk FROM krs a JOIN tahun_ajaran b on a.tahun_ajaran_id=b.tahun_ajaran_id JOIN kelas c on a.kelas_id=c.kelas_id JOIN siswa d on a.siswa_id=d.siswa_id JOIN kurikulum e on a.kurikulum_id=e.kurikulum_id WHERE a.lembaga_pendidikan_id=`+idLembaga+` AND tahun_ajaran.status = 'aktif' GROUP by a.tahun_ajaran_id,a.kelas_id ORDER by a.tahun_ajaran_id,c.nama_kelas`;
   
       const dataKrsJoin = await sequelize.query(query, {
         // replacements: whereData,
