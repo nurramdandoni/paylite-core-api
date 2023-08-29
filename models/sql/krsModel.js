@@ -56,6 +56,196 @@ const Krs = sequelize.define("krs", {
     tableName: "krs",
   });
 
+  // Definisikan model siswa
+const Siswa = sequelize.define("siswa", {
+  siswa_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nisn: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  email_orang_tua: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  nama_siswa: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  jenis_kelamin_id: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "siswa",
+  });
+
+  // Definisikan model tahun ajaran
+const TahunAjaran = sequelize.define("tahun_ajaran", {
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_tahun_ajaran: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "tahun_ajaran",
+  });
+
+  // Definisikan model kelas
+const Kelas = sequelize.define("kelas", {
+  kelas_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_kelas: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "kelas",
+  });
+
+// Definisikan model kurikulum
+const Kurikulum = sequelize.define("kurikulum", {
+  kurikulum_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  prodi_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  jurusan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  mata_ajar_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "kurikulum",
+  });
+
+      // Definisikan asosiasi antara Kurikulum dan Kelas
+Krs.belongsTo(Siswa, { foreignKey: "siswa_id", as: "siswa" });
+Krs.belongsTo(TahunAjaran, { foreignKey: "tahun_ajaran_id", as: "tahun_ajaran" });
+Krs.belongsTo(Kelas, { foreignKey: "kelas_id", as: "kelas" });
+Krs.belongsTo(Kurikulum, { foreignKey: "kurikulum_id", as: "kurikulum" });
+
 // Fungsi untuk menampilkan krs by id
 async function findKrsById(krs_id) {
     try {
@@ -193,4 +383,30 @@ async function findKrsByWhere(whereData) {
     }
   }
 
-module.exports = { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere };
+  async function findDataKrsJoin(idLembaga){
+    try {
+      const query = `
+      SELECT *,a.tahun_ajaran_id as dTh,a.kelas_id as dKk FROM krs a JOIN tahun_ajaran b on a.tahun_ajaran_id=b.tahun_ajaran_id JOIN kelas c on a.kelas_id=c.kelas_id JOIN siswa d on a.siswa_id=d.siswa_id JOIN kurikulum e on a.kurikulum_id=e.kurikulum_id WHERE a.lembaga_pendidikan_id=`+idLembaga+` GROUP by a.tahun_ajaran_id,a.kelas_id ORDER by a.tahun_ajaran_id,c.nama_kelas`;
+  
+      const dataKrsJoin = await sequelize.query(query, {
+        // replacements: whereData,
+        type: sequelize.QueryTypes.SELECT,
+        // model: Subscriber, // Jika ingin menghasilkan instance Sequelize
+      });
+  
+      if (dataKrsJoin.length > 0) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataKrsJoin };
+      } else {
+        return { status: "Error", message: "Data Tidak Ditemukan!", data: [] };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
+
+module.exports = { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere, findDataKrsJoin };

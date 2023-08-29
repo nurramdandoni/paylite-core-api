@@ -1,4 +1,4 @@
-const { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere } = require('../models/sql/krsModel'); // Core API
+const { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere, findDataKrsJoin } = require('../models/sql/krsModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -140,3 +140,32 @@ exports.findKrsByWhere = async (req, res) => {
       res.status(500).json(response500);
     }
   };
+
+  // get data data krs by join
+exports.findDataKrsJoin = async (req, res) => {
+  const lembagaPendidikan = req.params.lembagaPendidikan;
+console.log(lembagaPendidikan)
+  try{
+
+    const dataKrs = await findDataKrsJoin(lembagaPendidikan);
+
+    if (dataKrs.status == "Sukses") {
+      const response = {
+        status:dataKrs.status,
+        message:dataKrs.message,
+        data:dataKrs.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataKrs.status,
+        message:dataKrs.message,
+        data:dataKrs.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
+    res.status(500).json(response500);
+  }
+};
