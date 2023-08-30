@@ -1,4 +1,4 @@
-const { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere, findDataKrsJoin, findKrsByWhereGroup } = require('../models/sql/krsModel'); // Core API
+const { findKrs, createKrs,findKrsById, updateKrs,deleteKrsById, findKrsByWhere, findDataKrsJoin, findKrsByWhereGroup } = require('../models/sql/krsModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -108,6 +108,33 @@ exports.updateKrs = async (req, res) => {
           }
           res.status(422).json(response);
         }
+  } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+
+// Fungsi untuk menghapus data KRS berdasarkan krs_id
+exports.deleteKrsById = async (req, res) => {
+  const KrsId = req.params.krsId;
+
+  try {
+    const krsData = await deleteKrsById(KrsId);
+
+    if(krsData.status == "Sukses"){
+      const response = {
+        status:krsData.status,
+        message:krsData.message,
+        data:krsData.data
+      }
+      res.json(response);
+    }else{
+      const response = {
+        status:krsData.status,
+        message:krsData.message,
+        data:krsData.data
+      }
+      res.status(422).json(response);
+    }
   } catch (error) {
     res.status(500).json(response500);
   }

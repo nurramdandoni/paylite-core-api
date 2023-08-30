@@ -200,6 +200,7 @@ app.get("/krs",krsController.searchKrs);
 app.get("/krs/:krsId",krsController.findKrsById);
 app.post("/krs",krsController.createKrs);
 app.put("/krs/:krsId",krsController.updateKrs);
+app.delete('/krs/:krsId', krsController.deleteKrsById);
 app.post("/krsWhere",krsController.findKrsByWhere);
 app.post("/krsWhereGroup",krsController.findKrsByWhereGroup);
 app.get("/KrsWhereJoin/:lembagaPendidikan",krsController.findDataKrsJoin);

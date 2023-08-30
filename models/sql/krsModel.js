@@ -453,6 +453,29 @@ async function updateKrs(KrsId, data) {
   }
 }
 
+
+// Fungsi untuk menghapus data KRS berdasarkan krs_id
+async function deleteKrsById(KrsId) {
+  try {
+    const result = await Krs.destroy({
+      where: { krs_id: KrsId },
+    });
+
+    if (result) {
+      return { status: "Sukses", message: "Data Berhasil Dihapus!" };
+    } else {
+      return { status: "Error", message: "Data Tidak Berhasil!" };
+    }
+  } catch (error) {
+    console.error(error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Menghapus Data!",
+      data: error.message,
+    };
+  }
+}
+
 // Fungsi untuk menampilkan krs by where
 async function findKrsByWhere(whereData) {
     // console.log(whereData)
@@ -583,4 +606,4 @@ async function findKrsByWhereGroup(whereData,groupColumn) {
     }
   }
 
-module.exports = { findKrs, createKrs,findKrsById, updateKrs, findKrsByWhere, findDataKrsJoin, findKrsByWhereGroup };
+module.exports = { findKrs, createKrs,findKrsById, updateKrs,deleteKrsById, findKrsByWhere, findDataKrsJoin, findKrsByWhereGroup };
