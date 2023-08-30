@@ -220,8 +220,10 @@ async function findJadwalPelajaranByWhere(whereData) {
   }
   async function findJadwalPelajaranJoinByKrsNisn(idLembaga,hari,nisn,waktu){
     try {
+      // const query = `
+      // SELECT * FROM krs JOIN jadwal_pelajaran ON krs.kurikulum_id=jadwal_pelajaran.kurikulum_id left JOIN kelas on jadwal_pelajaran.data_kelas_id=kelas.kelas_id WHERE jadwal_pelajaran.hari_id ='`+hari+`' AND krs.siswa_id=(SELECT siswa_id FROM siswa WHERE siswa.nisn='`+nisn+`') and krs.kelas_id=kelas.kelas_id AND TIME('`+waktu+`') >= jadwal_pelajaran.jam_mulai AND TIME('`+waktu+`') <= jadwal_pelajaran.jam_selesai and jadwal_pelajaran.lembaga_pendidikan_id='`+idLembaga+`' and krs.tahun_ajaran_id=jadwal_pelajaran.tahun_ajaran_id and jadwal_pelajaran.tahun_ajaran_id=(SELECT tahun_ajaran_id FROM tahun_ajaran WHERE tahun_ajaran.status='aktif' AND tahun_ajaran.lembaga_pendidikan_id ='`+idLembaga+`')`;
       const query = `
-      SELECT * FROM krs JOIN jadwal_pelajaran ON krs.kurikulum_id=jadwal_pelajaran.kurikulum_id left JOIN kelas on jadwal_pelajaran.data_kelas_id=kelas.kelas_id WHERE jadwal_pelajaran.hari_id ='`+hari+`' AND krs.siswa_id=(SELECT siswa_id FROM siswa WHERE siswa.nisn='`+nisn+`') and krs.kelas_id=kelas.kelas_id AND TIME('`+waktu+`') >= jadwal_pelajaran.jam_mulai AND TIME('`+waktu+`') <= jadwal_pelajaran.jam_selesai and jadwal_pelajaran.lembaga_pendidikan_id='`+idLembaga+`' and krs.tahun_ajaran_id=jadwal_pelajaran.tahun_ajaran_id and jadwal_pelajaran.tahun_ajaran_id=(SELECT tahun_ajaran_id FROM tahun_ajaran WHERE tahun_ajaran.status='aktif' AND tahun_ajaran.lembaga_pendidikan_id ='`+idLembaga+`')`;
+      SELECT * FROM jadwal_pelajaran a JOIN krs b on a.kurikulum_id=b.kurikulum_id JOIN siswa c on b.siswa_id=c.siswa_id WHERE a.lembaga_pendidikan_id='`+idLembaga+`' and a.tahun_ajaran_id=(SELECT aa.tahun_ajaran_id from tahun_ajaran aa WHERE aa.status='aktif' and aa.lembaga_pendidikan_id='`+idLembaga+`') and a.hari_id='`+hari+`' and TIME('`+waktu+`') >= a.jam_mulai AND TIME('`+waktu+`') <= a.jam_selesai AND a.data_kelas_id=b.kelas_id and c.nisn='`+nisn+`'; `;
   
       const dataJadwalPelajaranJoinByKrsNisn = await sequelize.query(query, {
         // replacements: whereData,
