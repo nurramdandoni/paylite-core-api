@@ -193,6 +193,7 @@ app.get("/dataKelas",dataKelasController.searchDataKelas);
 app.get("/dataKelas/:dataKelasId",dataKelasController.findDataKelasById);
 app.post("/dataKelas",dataKelasController.createDataKelas);
 app.put("/dataKelas/:dataKelasId",dataKelasController.updateDataKelas);
+app.delete('/dataKelas/:dataKelasId', dataKelasController.deleteDataKelasById);
 app.post("/dataKelasWhere",dataKelasController.findDataKelasByWhere);
 app.get("/dataKelasWhereJoin/:lembagaPendidikan",dataKelasController.findDataKelasJoin);
 

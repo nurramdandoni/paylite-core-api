@@ -112,6 +112,34 @@ exports.updateDataKelas = async (req, res) => {
     res.status(500).json(response500);
   }
 };
+
+// Fungsi untuk menghapus data Kelas berdasarkan data_kelas_id
+exports.deleteDataKelasById = async (req, res) => {
+  const DataKelasId = req.params.dataKelasId;
+
+  try {
+    const dataKelas = await deleteDataKelasIdById(DataKelasId);
+
+    if(dataKelas.status == "Sukses"){
+      const response = {
+        status:dataKelas.status,
+        message:dataKelas.message,
+        data:dataKelas.data
+      }
+      res.json(response);
+    }else{
+      const response = {
+        status:dataKelas.status,
+        message:dataKelas.message,
+        data:dataKelas.data
+      }
+      res.status(422).json(response);
+    }
+  } catch (error) {
+    res.status(500).json(response500);
+  }
+};
+
 // get data data kelas by custom
 exports.findDataKelasByWhere = async (req, res) => {
   const DataWhere = req.body;

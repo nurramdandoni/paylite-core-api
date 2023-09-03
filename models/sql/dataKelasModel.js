@@ -382,6 +382,28 @@ async function updateDataKelas(DataKelasId, data) {
   }
 }
 
+// Fungsi untuk menghapus data Kelas berdasarkan data_kelas_id
+async function deleteDataKelasById(dataKelasId) {
+  try {
+    const result = await DataKelas.destroy({
+      where: { data_kelas_id: dataKelasId },
+    });
+
+    if (result) {
+      return { status: "Sukses", message: "Data Berhasil Dihapus!" };
+    } else {
+      return { status: "Error", message: "Data Tidak Berhasil!" };
+    }
+  } catch (error) {
+    console.error(error);
+    return {
+      status: "Error",
+      message: "Terjadi Kesalahan Saat Menghapus Data!",
+      data: error.message,
+    };
+  }
+}
+
 // Fungsi untuk menampilkan data kelas by where
 async function findDataKelasByWhere(whereData) {
   // console.log(whereData)
@@ -457,4 +479,4 @@ async function findDataKelasJoin(idLembaga){
   }
 }
 
-module.exports = { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas, findDataKelasByWhere, findDataKelasJoin };
+module.exports = { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas,deleteDataKelasById, findDataKelasByWhere, findDataKelasJoin };
