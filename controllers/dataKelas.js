@@ -1,4 +1,4 @@
-const { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas, findDataKelasByWhere, findDataKelasJoin } = require('../models/sql/dataKelasModel'); // Core API
+const { findDataKelas, createDataKelas,findDataKelasById, updateDataKelas,deleteDataKelasById, findDataKelasByWhere, findDataKelasJoin } = require('../models/sql/dataKelasModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -118,7 +118,7 @@ exports.deleteDataKelasById = async (req, res) => {
   const DataKelasId = req.params.dataKelasId;
 
   try {
-    const dataKelas = await deleteDataKelasIdById(DataKelasId);
+    const dataKelas = await deleteDataKelasById(DataKelasId);
 
     if(dataKelas.status == "Sukses"){
       const response = {
