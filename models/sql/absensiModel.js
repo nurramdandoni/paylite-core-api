@@ -212,5 +212,34 @@ async function findAbsensiByWhere(whereData) {
       };
     }
   }
+  async function findAbsensiByWhereTanggalRekap(where){
+    const lembaga_pendidikan_id = where.lembaga_pendidikan_id;
+    const jadwal_pelajaran_id = where.jadwal_pelajaran_id;
+    const tanggal_absensi_start = where.tanggal_absensi_start;
+    const tanggal_absensi_end = where.tanggal_absensi_end;
+    try {
+      const query = `
+      SELECT * FROM absensi WHERE absensi.lembaga_pendidikan_id='`+lembaga_pendidikan_id+`' AND absensi.jadwal_pelajaran_id='`+jadwal_pelajaran_id+`'AND DATE(absensi.tanggal_absensi) BETWEEN '`+tanggal_absensi_start+`' AND '`+tanggal_absensi_end+`'; `;
+  
+      const dataAbsensiUserTanggal = await sequelize.query(query, {
+        // replacements: whereData,
+        type: sequelize.QueryTypes.SELECT,
+        // model: Subscriber, // Jika ingin menghasilkan instance Sequelize
+      });
+  
+      if (dataAbsensiUserTanggal != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataAbsensiUserTanggal };
+      } else {
+        return { status: "Error", message: "Data Tidak Ditemukan!", data: dataAbsensiUserTanggal };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
 
-module.exports = { findAbsensi, createAbsensi,findAbsensiById, updateAbsensi, findAbsensiByWhere, findAbsensiByWhereTanggal };
+module.exports = { findAbsensi, createAbsensi,findAbsensiById, updateAbsensi, findAbsensiByWhere, findAbsensiByWhereTanggal,findAbsensiByWhereTanggalRekap };
