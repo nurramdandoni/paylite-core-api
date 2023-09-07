@@ -144,11 +144,10 @@ exports.findJadwalPelajaranByWhere = async (req, res) => {
   // get data jadwal pelajaran by custom
 exports.findJadwalPelajaranByGroupReport = async (req, res) => {
   const DataWhere = req.body;
-  const where = DataWhere.where;
 console.log(DataWhere)
   try{
 
-    const dataWhere = await findJadwalPelajaranByGroupReport(where);
+    const dataWhere = await findJadwalPelajaranByGroupReport(DataWhere);
 
     if (dataWhere.status == "Sukses") {
       const response = {
