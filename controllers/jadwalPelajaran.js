@@ -1,4 +1,4 @@
-const { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere, findJadwalPelajaranJoin, findJadwalPelajaranJoinByKrsNisn, findJadwalPelajaranBentrok } = require('../models/sql/jadwalPelajaranModel'); // Core API
+const { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere, findJadwalPelajaranJoin, findJadwalPelajaranJoinByKrsNisn, findJadwalPelajaranBentrok, findJadwalPelajaranByGroupReport } = require('../models/sql/jadwalPelajaranModel'); // Core API
 
 const response500 = {
   status:"Error",
@@ -140,6 +140,37 @@ exports.findJadwalPelajaranByWhere = async (req, res) => {
       res.status(500).json(response500);
     }
   };
+
+  // get data jadwal pelajaran by custom
+exports.findJadwalPelajaranByGroupReport = async (req, res) => {
+  const DataWhere = req.body;
+  const where = DataWhere.where;
+  const column = DataWhere.column;
+console.log(DataWhere)
+  try{
+
+    const dataWhere = await findJadwalPelajaranByGroupReport(where,column);
+
+    if (dataWhere.status == "Sukses") {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.json(response);
+    } else {
+      const response = {
+        status:dataWhere.status,
+        message:dataWhere.message,
+        data:dataWhere.data
+      }
+      res.status(404).json(response);
+    }
+
+  }catch(error){
+    res.status(500).json(response500);
+  }
+};
 // get data jadwal pelajaran by join
 exports.findJadwalPelajaranJoin = async (req, res) => {
   const lembagaPendidikan = req.params.lembagaPendidikan;

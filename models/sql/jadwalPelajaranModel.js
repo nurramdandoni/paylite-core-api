@@ -56,6 +56,286 @@ const JadwalPelajaran = sequelize.define("jadwal_pelajaran", {
     tableName: "jadwal_pelajaran",
   });
 
+  // Definisikan model tahun ajaran
+const TahunAjaran = sequelize.define("tahun_ajaran", {
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_tahun_ajaran: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "tahun_ajaran",
+  });
+
+// Definisikan model kurikulum
+const Kurikulum = sequelize.define("kurikulum", {
+  kurikulum_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  prodi_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  jurusan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  mata_ajar_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "kurikulum",
+  });
+
+    // Definisikan model mata ajar
+const MataAjar = sequelize.define("mata_ajar", {
+  mata_ajar_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_mata_ajar: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  bobot_sks: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "mata_ajar",
+  });
+
+  // Definisikan model guru
+const Guru = sequelize.define("guru", {
+  guru_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nip: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  nama_guru: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  jenis_kelamin_id: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  jabatan_guru_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "guru",
+  });
+
+  // Definisikan model data kelas
+const DataKelas = sequelize.define("data_kelas", {
+  data_kelas_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  wali_kelas_id: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  },
+  kelas_id: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  },
+  siswa_id: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "data_kelas",
+  });
+
+    // Definisikan model kelas
+const Kelas = sequelize.define("kelas", {
+  kelas_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  tahun_ajaran_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nama_kelas: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "kelas",
+  });
+        // Definisikan asosiasi antara Kurikulum dan Kelas
+JadwalPelajaran.belongsTo(TahunAjaran, { foreignKey: "tahun_ajaran_id", as: "tahun_ajaran" });
+JadwalPelajaran.belongsTo(Kurikulum, { foreignKey: "kurikulum_id", as: "kurikulum" });
+Kurikulum.belongsTo(MataAjar, { foreignKey: "mata_ajar_id", as: "mata_ajar" });
+JadwalPelajaran.belongsTo(Guru, { foreignKey: "guru_id", as: "guru" });
+JadwalPelajaran.belongsTo(DataKelas, { foreignKey: "data_kelas_id", as: "data_kelas" });
+DataKelas.belongsTo(Kelas, { foreignKey: "kelas_id", as: "kelas" });
 // Fungsi untuk menampilkan jadwal pelajaran by id
 async function findJadwalPelajaranById(jadwal_pelajaran_id) {
     try {
@@ -63,6 +343,36 @@ async function findJadwalPelajaranById(jadwal_pelajaran_id) {
         where: {
           jadwal_pelajaran_id: jadwal_pelajaran_id,
         },
+        include: [
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kurikulum,
+            as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+            include: [
+              {
+                model: MataAjar,
+                as: 'mata_ajar', // Menggunakan alias yang telah didefinisikan
+              },
+            ],
+          },
+          {
+            model: Guru,
+            as: 'guru', // Alias untuk asosiasi dengan model Kelas
+          },  
+          {
+            model: DataKelas,
+            as: 'data_kelas', // Alias untuk asosiasi dengan model Kelas
+            include: [
+              {
+                model: Kelas,
+                as: 'kelas', // Menggunakan alias yang telah didefinisikan
+              },
+            ],
+          },        
+        ],
       });
       if (dataJadwalPelajaran != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataJadwalPelajaran };
@@ -85,7 +395,38 @@ async function findJadwalPelajaranById(jadwal_pelajaran_id) {
 // Fungsi untuk menampilkan Jadwal Pelajaran all
 async function findJadwalPelajaran() {
     try {
-      const dataJadwalPelajaran = await JadwalPelajaran.findAll();
+      const dataJadwalPelajaran = await JadwalPelajaran.findAll({
+        include: [
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kurikulum,
+            as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+            include: [
+              {
+                model: MataAjar,
+                as: 'mata_ajar', // Menggunakan alias yang telah didefinisikan
+              },
+            ],
+          },
+          {
+            model: Guru,
+            as: 'guru', // Alias untuk asosiasi dengan model Kelas
+          },  
+          {
+            model: DataKelas,
+            as: 'data_kelas', // Alias untuk asosiasi dengan model Kelas
+            include: [
+              {
+                model: Kelas,
+                as: 'kelas', // Menggunakan alias yang telah didefinisikan
+              },
+            ],
+          },        
+        ],
+      });
       if (dataJadwalPelajaran != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataJadwalPelajaran };
       } else {
@@ -173,6 +514,96 @@ async function findJadwalPelajaranByWhere(whereData) {
     try {
       const dataJadwalPelajaran = await JadwalPelajaran.findAll({
         where: whereData,
+        include: [
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kurikulum,
+            as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+            include: [
+              {
+                model: MataAjar,
+                as: 'mata_ajar', // Menggunakan alias yang telah didefinisikan
+              },
+            ],
+          },
+          {
+            model: Guru,
+            as: 'guru', // Alias untuk asosiasi dengan model Kelas
+          },  
+          {
+            model: DataKelas,
+            as: 'data_kelas', // Alias untuk asosiasi dengan model Kelas
+            include: [
+              {
+                model: Kelas,
+                as: 'kelas', // Menggunakan alias yang telah didefinisikan
+              },
+            ],
+          },        
+        ],
+      });
+      if (dataJadwalPelajaran != null) {
+        return { status: "Sukses", message: "Data Ditemukan!", data: dataJadwalPelajaran };
+      } else {
+        return {
+          status: "Error",
+          message: "Data Tidak Ditemukan!",
+          data: dataJadwalPelajaran,
+        };
+      }
+    } catch (error) {
+      console.error("error ", error);
+      return {
+        status: "Error",
+        message: "Terjadi Kesalahan Saat Proses Data!",
+        data: error.message,
+      };
+    }
+  }
+// Fungsi untuk menampilkan jadwal pelajaran by where Report
+async function findJadwalPelajaranByGroupReport(whereData, groupColumn) {
+    // console.log(whereData)
+    try {
+      const dataJadwalPelajaran = await JadwalPelajaran.findAll({
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col(groupColumn)), 'count'],
+          groupColumn,
+        ],
+        group: [groupColumn],
+        where: whereData,
+        include: [
+          {
+            model: TahunAjaran,
+            as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
+            model: Kurikulum,
+            as: 'kurikulum', // Alias untuk asosiasi dengan model Kelas
+            include: [
+              {
+                model: MataAjar,
+                as: 'mata_ajar', // Menggunakan alias yang telah didefinisikan
+              },
+            ],
+          },
+          {
+            model: Guru,
+            as: 'guru', // Alias untuk asosiasi dengan model Kelas
+          },  
+          {
+            model: DataKelas,
+            as: 'data_kelas', // Alias untuk asosiasi dengan model Kelas
+            include: [
+              {
+                model: Kelas,
+                as: 'kelas', // Menggunakan alias yang telah didefinisikan
+              },
+            ],
+          },        
+        ],
       });
       if (dataJadwalPelajaran != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataJadwalPelajaran };
@@ -271,4 +702,4 @@ async function findJadwalPelajaranByWhere(whereData) {
     }
   }
 
-module.exports = { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere, findJadwalPelajaranJoin, findJadwalPelajaranJoinByKrsNisn, findJadwalPelajaranBentrok };
+module.exports = { findJadwalPelajaran, createJadwalPelajaran,findJadwalPelajaranById, updateJadwalPelajaran, findJadwalPelajaranByWhere, findJadwalPelajaranJoin, findJadwalPelajaranJoinByKrsNisn, findJadwalPelajaranBentrok, findJadwalPelajaranByGroupReport };
