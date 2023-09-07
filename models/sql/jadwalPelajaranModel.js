@@ -506,6 +506,7 @@ async function findJadwalPelajaranByGroupReport(whereData) {
           [sequelize.fn('COUNT', sequelize.col('jadwal_pelajaran.kurikulum_id','jadwal_pelajaran.guru_id','jadwal_pelajaran.*')), 'count'],
           'kurikulum_id',
           'guru_id',
+          'jadwal_pelajaran.*'
         ],
         group: ['kurikulum_id','guru_id',],
         where: whereData,
