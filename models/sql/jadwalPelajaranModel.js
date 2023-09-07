@@ -505,7 +505,7 @@ async function findJadwalPelajaranByGroupReport(whereData) {
         attributes: [
           [sequelize.fn('COUNT', sequelize.col('kurikulum_id')), 'count_kurikulum'],
           'kurikulum_id',
-          [sequelize.fn('COUNT', sequelize.col('guru_id')), 'count_guru'],
+          [sequelize.fn('COUNT', sequelize.col('jadwal_perkuliahan.guru_id')), 'count_guru'],
           'guru_id',
           'jadwal_perkuliahan_id', // Tambahkan kolom-kolom lain di sini
         ],
