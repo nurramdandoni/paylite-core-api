@@ -569,7 +569,7 @@ async function findJadwalPelajaranByGroupReport(whereData) {
     try {
       const dataJadwalPelajaran = await JadwalPelajaran.findAll({
         attributes: [
-          [sequelize.fn('COUNT', sequelize.col('kurikulum_id','guru_id')), 'count'],
+          [sequelize.fn('COUNT', sequelize.col('jadwal_pelajaran.kurikulum_id','jadwal_pelajaran.guru_id')), 'count'],
           'kurikulum_id',
           'guru_id',
         ],
