@@ -564,15 +564,16 @@ async function findJadwalPelajaranByWhere(whereData) {
     }
   }
 // Fungsi untuk menampilkan jadwal pelajaran by where Report
-async function findJadwalPelajaranByGroupReport(whereData, groupColumn) {
+async function findJadwalPelajaranByGroupReport(whereData) {
     // console.log(whereData)
     try {
       const dataJadwalPelajaran = await JadwalPelajaran.findAll({
         attributes: [
           [sequelize.fn('COUNT', sequelize.col(groupColumn)), 'count'],
-          groupColumn,
+          'kurikulum_id',
+          'guru_id',
         ],
-        group: [groupColumn],
+        group: ['kurikulum_id','guru_id',],
         where: whereData,
         include: [
           {

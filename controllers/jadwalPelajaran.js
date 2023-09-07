@@ -145,11 +145,10 @@ exports.findJadwalPelajaranByWhere = async (req, res) => {
 exports.findJadwalPelajaranByGroupReport = async (req, res) => {
   const DataWhere = req.body;
   const where = DataWhere.where;
-  const column = DataWhere.column;
 console.log(DataWhere)
   try{
 
-    const dataWhere = await findJadwalPelajaranByGroupReport(where,column);
+    const dataWhere = await findJadwalPelajaranByGroupReport(where);
 
     if (dataWhere.status == "Sukses") {
       const response = {
