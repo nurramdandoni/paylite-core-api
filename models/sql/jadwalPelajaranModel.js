@@ -240,53 +240,6 @@ const Guru = sequelize.define("guru", {
     tableName: "guru",
   });
 
-  // Definisikan model data kelas
-const DataKelas = sequelize.define("data_kelas", {
-  data_kelas_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  lembaga_pendidikan_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  tahun_ajaran_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  wali_kelas_id: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-  },
-  kelas_id: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-  },
-  siswa_id: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-  },
-  description: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  createdAt: {
-    type: Sequelize.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.NOW,
-  },
-  updatedAt: {
-    type: Sequelize.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-  }, 
-  },
-  {
-    tableName: "data_kelas",
-  });
-
     // Definisikan model kelas
 const Kelas = sequelize.define("kelas", {
   kelas_id: {
@@ -334,8 +287,7 @@ JadwalPelajaran.belongsTo(TahunAjaran, { foreignKey: "tahun_ajaran_id", as: "tah
 JadwalPelajaran.belongsTo(Kurikulum, { foreignKey: "kurikulum_id", as: "kurikulum" });
 Kurikulum.belongsTo(MataAjar, { foreignKey: "mata_ajar_id", as: "mata_ajar" });
 JadwalPelajaran.belongsTo(Guru, { foreignKey: "guru_id", as: "guru" });
-JadwalPelajaran.belongsTo(DataKelas, { foreignKey: "data_kelas_id", as: "data_kelas" });
-DataKelas.belongsTo(Kelas, { foreignKey: "kelas_id", as: "kelas" });
+JadwalPelajaran.belongsTo(Kelas, { foreignKey: "data_kelas_id", as: "kelas" });
 // Fungsi untuk menampilkan jadwal pelajaran by id
 async function findJadwalPelajaranById(jadwal_pelajaran_id) {
     try {
@@ -363,14 +315,8 @@ async function findJadwalPelajaranById(jadwal_pelajaran_id) {
             as: 'guru', // Alias untuk asosiasi dengan model Kelas
           },  
           {
-            model: DataKelas,
-            as: 'data_kelas', // Alias untuk asosiasi dengan model Kelas
-            include: [
-              {
-                model: Kelas,
-                as: 'kelas', // Menggunakan alias yang telah didefinisikan
-              },
-            ],
+            model: Kelas,
+            as: 'kelas',
           },        
         ],
       });
@@ -416,14 +362,8 @@ async function findJadwalPelajaran() {
             as: 'guru', // Alias untuk asosiasi dengan model Kelas
           },  
           {
-            model: DataKelas,
-            as: 'data_kelas', // Alias untuk asosiasi dengan model Kelas
-            include: [
-              {
-                model: Kelas,
-                as: 'kelas', // Menggunakan alias yang telah didefinisikan
-              },
-            ],
+            model: Kelas,
+            as: 'kelas',
           },        
         ],
       });
@@ -534,14 +474,8 @@ async function findJadwalPelajaranByWhere(whereData) {
             as: 'guru', // Alias untuk asosiasi dengan model Kelas
           },  
           {
-            model: DataKelas,
-            as: 'data_kelas', // Alias untuk asosiasi dengan model Kelas
-            include: [
-              {
-                model: Kelas,
-                as: 'kelas', // Menggunakan alias yang telah didefinisikan
-              },
-            ],
+            model: Kelas,
+            as: 'kelas',
           },        
         ],
       });
@@ -595,14 +529,8 @@ async function findJadwalPelajaranByGroupReport(whereData) {
             as: 'guru', // Alias untuk asosiasi dengan model Kelas
           },  
           {
-            model: DataKelas,
-            as: 'data_kelas', // Alias untuk asosiasi dengan model Kelas
-            include: [
-              {
-                model: Kelas,
-                as: 'kelas', // Menggunakan alias yang telah didefinisikan
-              },
-            ],
+            model: Kelas,
+            as: 'kelas',
           },        
         ],
       });
