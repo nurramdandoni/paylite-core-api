@@ -49,6 +49,61 @@ const Absensi = sequelize.define("absensi", {
     tableName: "absensi",
   });
 
+  // Definisikan model siswa
+const Siswa = sequelize.define("siswa", {
+  siswa_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  lembaga_pendidikan_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  nisn: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  email_orang_tua: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  nama_siswa: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  jenis_kelamin_id: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+  }, 
+  },
+  {
+    tableName: "siswa",
+  });
+
+
+        // Definisikan asosiasi antara Kurikulum dan Kelas
+Absensi.belongsTo(Siswa, { foreignKey: "siswa_id", as: "siswa" });
+
 // Fungsi untuk menampilkan absensi by id
 async function findAbsensiById(absensi_id) {
     try {
@@ -56,6 +111,12 @@ async function findAbsensiById(absensi_id) {
         where: {
           absensi_id: absensi_id,
         },
+        include: [
+          {
+            model: Siswa,
+            as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
       });
       if (dataAbsensi != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataAbsensi };
@@ -78,7 +139,14 @@ async function findAbsensiById(absensi_id) {
 // Fungsi untuk menampilkan Absensi all
 async function findAbsensi() {
     try {
-      const dataAbsensi = await Absensi.findAll();
+      const dataAbsensi = await Absensi.findAll({
+        include: [
+          {
+            model: Siswa,
+            as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
+      });
       if (dataAbsensi != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataAbsensi };
       } else {
@@ -162,6 +230,12 @@ async function findAbsensiByWhere(whereData) {
     try {
       const dataAbsensi = await Absensi.findAll({
         where: whereData,
+        include: [
+          {
+            model: Siswa,
+            as: 'siswa', // Alias untuk asosiasi dengan model Kelas
+          },
+        ],
       });
       if (dataAbsensi != null) {
         return { status: "Sukses", message: "Data Ditemukan!", data: dataAbsensi };
