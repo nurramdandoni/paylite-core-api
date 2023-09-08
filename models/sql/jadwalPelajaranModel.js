@@ -513,6 +513,10 @@ async function findJadwalPelajaranByGroupReport(whereData) {
         where: whereData,
         include: [
           {
+            model: JadwalPelajaran,
+            as: 'jadwal_pelajaran', // Alias untuk asosiasi dengan model Kelas
+          },
+          {
             model: TahunAjaran,
             as: 'tahun_ajaran', // Alias untuk asosiasi dengan model Kelas
           },
