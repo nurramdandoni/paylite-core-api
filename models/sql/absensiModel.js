@@ -288,12 +288,18 @@ async function findAbsensiByWhere(whereData) {
   }
   async function findAbsensiByWhereTanggalRekap(where){
     const lembaga_pendidikan_id = where.lembaga_pendidikan_id;
+    const tahun_ajaran_id = where.tahun_ajaran_id;
+    const kurikulum_id = where.kurikulum_id;
+    const data_kelas_id = where.data_kelas_id;
+    const guru_id = where.guru_id;
     const jadwal_pelajaran_id = where.jadwal_pelajaran_id;
     const tanggal_absensi_start = where.tanggal_absensi_start;
     const tanggal_absensi_end = where.tanggal_absensi_end;
     try {
+      // const query = `
+      // SELECT * FROM absensi JOIN siswa ON absensi.siswa_id=siswa.siswa_id WHERE absensi.lembaga_pendidikan_id='`+lembaga_pendidikan_id+`' AND absensi.jadwal_pelajaran_id='`+jadwal_pelajaran_id+`'AND DATE(absensi.tanggal_absensi) BETWEEN '`+tanggal_absensi_start+`' AND '`+tanggal_absensi_end+`'; `;
       const query = `
-      SELECT * FROM absensi JOIN siswa ON absensi.siswa_id=siswa.siswa_id WHERE absensi.lembaga_pendidikan_id='`+lembaga_pendidikan_id+`' AND absensi.jadwal_pelajaran_id='`+jadwal_pelajaran_id+`'AND DATE(absensi.tanggal_absensi) BETWEEN '`+tanggal_absensi_start+`' AND '`+tanggal_absensi_end+`'; `;
+      SELECT * FROM absensi JOIN jadwal_pelajaran ON absensi.jadwal_pelajaran_id=jadwal_pelajaran.jadwal_pelajaran_id JOIN siswa ON absensi.siswa_id=siswa.siswa_id WHERE absensi.lembaga_pendidikan_id='`+lembaga_pendidikan_id+`' AND jadwal_pelajaran.tahun_ajaran_id='`+tahun_ajaran_id+`' and jadwal_pelajaran.kurikulum_id='`+kurikulum_id+`' and jadwal_pelajaran.data_kelas_id='`+data_kelas_id+`' and jadwal_pelajaran.guru_id='`+guru_id+`' AND DATE(absensi.tanggal_absensi) BETWEEN '`+tanggal_absensi_start+`' AND '`+tanggal_absensi_end+`'; `;
   
       const dataAbsensiUserTanggal = await sequelize.query(query, {
         // replacements: whereData,
