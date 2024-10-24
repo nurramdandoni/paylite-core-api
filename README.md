@@ -8,3 +8,4 @@ Local <-> development -> staging -> testing -> uat -> main (release)
 ##### testing step     : QA check requirement PO with base standart          url: https://test.{produk_slug}.*
 ##### uat step         : (optional) if join with other company               url: https://uat.{produk_slug}.*
 ##### main step        : is production life after Tag release                url: https://{produk_slug}.*
+
